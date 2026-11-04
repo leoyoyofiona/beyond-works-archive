@@ -713,7 +713,7 @@
   function next() { if (!MUSIC.length) return; mi = (mi + 1) % MUSIC.length; playSong(true); }
   function prev() { if (!MUSIC.length) return; mi = (mi - 1 + MUSIC.length) % MUSIC.length; playSong(true); }
   // 点喇叭：内部循环播放 / 暂停，不弹窗
-  if (musicBtn) musicBtn.addEventListener("click", function () {
+  if (musicBtn && MUSIC.length) musicBtn.addEventListener("click", function () {
     if (mPlaying) stopMusic();
     else playSong(true);
   });
@@ -1601,58 +1601,7 @@
   /* ============================================================
      背景音乐 · 原创合成音轨（WebAudio 生成，无第三方版权）
      ============================================================ */
-  (function bgmOriginal() {
-    var btn = document.querySelector(".music-toggle");
-    var now = document.getElementById("music-now");
-    if (!btn) return;
-    var audio = new Audio("assets/audio/original-loop.mp3");
-    audio.loop = true;
-    audio.preload = "auto";
-    audio.volume = 0;
-    var playing = false, fadeTimer = null;
-    function setMsg(t) {
-      if (!now) return;
-      now.textContent = t || "";
-      now.classList.toggle("on", !!t);
-    }
-    function fadeTo(target, ms) {
-      if (fadeTimer) { clearInterval(fadeTimer); fadeTimer = null; }
-      var from = audio.volume, steps = Math.max(1, Math.round(ms / 40)), i = 0;
-      fadeTimer = setInterval(function () {
-        i++;
-        audio.volume = Math.min(1, Math.max(0, from + (target - from) * (i / steps)));
-        if (i >= steps) { clearInterval(fadeTimer); fadeTimer = null; }
-      }, 40);
-    }
-    function play() {
-      stopActiveFrame(); // 互斥：先停视频
-      playing = true;
-      btn.classList.add("playing");
-      setMsg("♪ 原创背景音乐 · 点击喇叭暂停");
-      var p = audio.play();
-      if (p && p.then) {
-        p.then(function () { fadeTo(0.6, 1500); }).catch(function () {
-          playing = false;
-          btn.classList.remove("playing");
-          setMsg("浏览器拦截了自动播放，请再点一次喇叭 🎵");
-        });
-      } else {
-        audio.volume = 0.6;
-      }
-    }
-    function stop(quiet) {
-      playing = false;
-      if (fadeTimer) { clearInterval(fadeTimer); fadeTimer = null; }
-      try { audio.pause(); } catch (e) {}
-      btn.classList.remove("playing");
-      if (!quiet) setMsg("");
-    }
-    btn.addEventListener("click", function () {
-      if (playing || !audio.paused) { stop(); return; }
-      play();
-    });
-    window.__byMusicStop = stop;
-  })();
+
 
 
 })();

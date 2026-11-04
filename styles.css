@@ -1098,3 +1098,8 @@ html[data-theme="day"] { --panel: #fbfaf7; }
 /* 大屏播放时：信息层不拦截播放器控制条的点击 */
 .moment-info { pointer-events: none; }
 .moment-stage.live .moment-info { opacity: 0; }
+
+/* 音乐按钮播放状态：明显跳动 + 呼吸光 */
+.music-toggle.playing { animation: pulse 1.4s infinite; }
+.music-toggle.playing .icon-music { animation: bgmBeat 0.9s ease-in-out infinite; }
+@keyframes bgmBeat { 0%,100% { transform: scale(1); } 50% { transform: scale(1.22); } }
