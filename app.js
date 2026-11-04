@@ -918,7 +918,13 @@
     }
     // 注册给 stopActiveFrame：卡片视频开播时自动停掉大屏（互斥）
     momentStopFn = function () { if (mOn) renderM(false); };
-    mPlayBtn.addEventListener("click", function () { renderM(!mOn); });
+    mPlayBtn.addEventListener("click", function (e) { e.stopPropagation(); renderM(!mOn); });
+    // 整个大屏都可点：点中三角/按钮附近任意位置都能开始播放
+    mStage.addEventListener("click", function (e) {
+      if (mOn) return;
+      if (e.target.closest(".moment-nav") || e.target.closest(".moment-tools") || e.target.closest("a")) return;
+      renderM(true);
+    });
     mPrevBtn.addEventListener("click", function () { mi2 = (mi2 - 1 + MOMENTS.length) % MOMENTS.length; renderM(mOn, mPlat || undefined); });
     mNextBtn.addEventListener("click", function () { mi2 = (mi2 + 1) % MOMENTS.length; renderM(mOn, mPlat || undefined); });
     mtBtns.forEach(function (b) {
