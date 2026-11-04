@@ -1,7 +1,7 @@
 /* BEYOND · 黄家驹纪念档案 — interactions
    All audio is generated live with WebAudio (original, no copyrighted material).
    单播放器互斥 + 地区双源（海外 YouTube / 大陆 B 站）+ 经典时刻大屏，
-   inspired by the LEOYOYOFIONA archive family. */
+   inspired by the LEODENG archive family. */
 (function () {
   "use strict";
 
