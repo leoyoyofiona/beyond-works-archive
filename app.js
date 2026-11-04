@@ -6,6 +6,7 @@
   "use strict";
 
   var D = window.BY_DATA;
+  var THUMBS = window.BY_THUMBS || {};
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ---------- header state ---------- */
@@ -390,7 +391,7 @@
     var card = document.createElement("article");
     card.className = "watch-card";
     // 两层背景：视频专属缩略图在上、专辑封面在下；前者加载失败时后者仍可见，避免黑块/千卡一图
-    var poster = v.img || watchThumb(v);
+    var poster = THUMBS[v.bv] || v.img || watchThumb(v);
     var cover = posterForVideo(v);
     var bgLayers = [];
     if (poster) bgLayers.push("url('" + poster + "')");
@@ -429,6 +430,7 @@
     if (replayStopFn) { try { replayStopFn(); } catch (e) {} }
     if (momentStopFn) { try { momentStopFn(); } catch (e) {} }
     stopMusic(true); // 互斥：视频/大屏开播时背景音乐一并停掉
+    if (window.__byMusicStop) { try { window.__byMusicStop(true); } catch (e) {} }
     if (activeFrame && activeFrame.__poster !== undefined) {
       activeFrame.innerHTML = activeFrame.__poster;
       activeFrame.classList.remove("playing");
@@ -452,7 +454,7 @@
     card.className = "watch-card live-card" + (replay ? " replay-card" : "");
     card.innerHTML =
       '<div class="live-poster">' +
-        '<img src="' + v.img + '" alt="' + v.title + ' · 现场画面" loading="lazy" onerror="this.style.opacity=0" />' +
+        '<img src="' + (THUMBS[v.bv] || v.img) + '" alt="' + v.title + ' · 现场画面" loading="lazy" onerror="this.style.opacity=0" />' +
         '<button class="live-play" type="button" aria-label="播放现场"><span>▶</span></button>' +
       "</div>" +
       '<div class="watch-body">' +
@@ -718,7 +720,7 @@
     card.className = "tour concert-card" + (c.yt || c.bv ? " has-video" : "");
     stagger(card, ci);
     var kw = encodeURIComponent(c.kw || c.title);
-    var poster = c.img || "";
+    var poster = THUMBS[c.bv] || c.img || "";
     var media = c.yt || c.bv
       ? '<div class="tour-media"><div class="tour-img" style="background-image:url(\'' + poster + '\')"></div>' +
         '<button class="tour-play" type="button" aria-label="播放现场"><span>▶</span></button>' +
@@ -850,7 +852,7 @@
       var mBg = document.getElementById("moment-bg");
       var mPoster = document.getElementById("moment-poster");
       if (mBg) mBg.style.backgroundImage = "url('" + m.poster + "')";
-      if (mPoster) mPoster.src = m.poster;
+      if (mPoster) mPoster.src = THUMBS[m.bv] || m.poster;
       mTitle.textContent = m.title;
       var curPlat = platOverride || mPlat || (region === "cn" ? (m.bv ? "bv" : "yt") : (m.yt ? "yt" : "bv"));
       mSub.textContent = m.sub + " · " + (curPlat === "bv" ? "B站源" : "YouTube 源");
@@ -918,7 +920,7 @@
       MOMENTS.forEach(function (m, i) {
         var b = document.createElement("button");
         b.type = "button"; b.className = "mpick";
-        var vth = m.yt ? 'https://i.ytimg.com/vi/' + m.yt + '/hqdefault.jpg' : m.poster;
+        var vth = THUMBS[m.bv] || (m.yt ? 'https://i.ytimg.com/vi/' + m.yt + '/hqdefault.jpg' : m.poster);
         b.innerHTML = '<img src="' + vth + '" alt="' + m.title + ' · 预览" loading="lazy" onerror="this.src=\'' + m.poster + '\'" />' +
           '<span class="mp-play">▶</span><span class="mp-cap">' + m.title + "</span>";
         b.addEventListener("click", function () {
@@ -1544,7 +1546,7 @@
       stagger(card, i);
       var kw = encodeURIComponent(s.kw || s.title);
       card.innerHTML =
-        '<div class="sc-media"><img src="' + s.img + '" alt="' + s.title + '" loading="lazy" />' +
+        '<div class="sc-media"><img src="' + (THUMBS[s.bv] || s.img) + '" alt="' + s.title + '" loading="lazy" />' +
           '<span class="sc-type">' + s.type + "</span></div>" +
         '<div class="sc-body">' +
           "<h3>" + s.title + "</h3>" +
@@ -1555,6 +1557,53 @@
         "</div>";
       grid.appendChild(card);
     });
+  })();
+
+
+  /* ============================================================
+     背景音乐 · 经典循环（隐藏播放器，B站源，与视频互斥）
+     ============================================================ */
+  (function bgMusic() {
+    var MUSIC = D.MUSIC || [];
+    var btn = document.querySelector(".music-toggle");
+    var now = document.getElementById("music-now");
+    var frame = document.getElementById("mp-frame");
+    if (!MUSIC.length || !btn || !frame) return;
+    var idx = 0, timer = null, playing = false;
+    function setMsg(t) {
+      if (!now) return;
+      now.textContent = t || "";
+      now.classList.toggle("on", !!t);
+    }
+    function stop(quiet) {
+      playing = false;
+      if (timer) { clearTimeout(timer); timer = null; }
+      frame.innerHTML = "";
+      btn.classList.remove("playing");
+      btn.setAttribute("aria-label", "播放背景音乐（经典循环）");
+      btn.title = "背景音乐 · 经典循环";
+      if (!quiet) setMsg("");
+    }
+    function playIndex(i) {
+      idx = ((i % MUSIC.length) + MUSIC.length) % MUSIC.length;
+      var m = MUSIC[idx];
+      frame.innerHTML = '<iframe src="https://player.bilibili.com/player.html?bvid=' + m.bv +
+        '&autoplay=1&danmaku=0&high_quality=1" title="' + m.title + '" allow="autoplay; fullscreen" frameborder="0"></iframe>';
+      setMsg("♪ " + m.title + (m.year ? " · " + m.year : "") + "（背景音乐 · 点喇叭暂停）");
+      if (timer) clearTimeout(timer);
+      var dur = (m.durSec || 240) * 1000;
+      timer = setTimeout(function () { playIndex(idx + 1); }, Math.max(60000, dur - 5000));
+    }
+    function play() {
+      stopActiveFrame(); // 互斥：先停掉视频/大屏
+      playing = true;
+      btn.classList.add("playing");
+      btn.setAttribute("aria-label", "暂停背景音乐");
+      btn.title = "背景音乐播放中 · 点击暂停";
+      playIndex(idx);
+    }
+    btn.addEventListener("click", function () { if (playing) stop(); else play(); });
+    window.__byMusicStop = stop;
   })();
 
 

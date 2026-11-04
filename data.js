@@ -489,38 +489,48 @@ window.BY_DATA = (function () {
     ]
   };
 
-  /* ---------------- 影像足迹（影视 / 电视 / 综艺，来源 research-relations.md） ---------------- */
+  /* ---------------- 影像足迹（电影/电视/综艺/晚会/颁奖/访谈，来源 research-film-tv.md） ---------------- */
   var SCREEN = [
-    { title: "BEYOND 日记之莫欺少年穷", year: "1991", type: "电影", director: "宋豪辉（监制：高志森）",
-      role: "四子主演：吴家驹 / 谭贯中 / 陈自强 / 林世荣", img: "assets/photos/band.jpg",
-      note: "BEYOND 唯一一部四子共同主演的电影，角色名由各人姓名谐变而来。", kw: "BEYOND 莫欺少年穷 电影" },
-    { title: "开心鬼救开心鬼", year: "1990", type: "电影", director: "高志森",
-      role: "四子饰「文武英杰」，BEYOND 负责配乐", img: "assets/photos/band.jpg",
-      note: "四子客串演出并参与配乐，是 BEYOND 与香港电影最热闹的一次相遇。", kw: "BEYOND 开心鬼救开心鬼" },
-    { title: "吉星拱照", year: "1990", type: "电影", director: "杜琪峰",
-      role: "四子饰「向东游 / 向西游 / 向南游 / 向北游」", img: "assets/photos/band.jpg",
-      note: "四兄弟角色名连起来就是「东西南北游」。", kw: "BEYOND 吉星拱照 电影" },
-    { title: "笼民", year: "1992", type: "电影", director: "张之亮",
-      role: "黄家驹 饰「毛仔」（全片线索人物）", img: "assets/photos/wongkakui.jpg",
-      note: "第 12 届香港电影金像奖最佳影片；家驹在片中饰演出狱青年毛仔。", kw: "黄家驹 笼民 电影" },
-    { title: "黑色迷墙", year: "1989", type: "电影", director: "刘家勇",
-      role: "BEYOND 客串 + 全片配乐 + 主题曲《午夜迷墙》", img: "assets/covers/zaijianlixiang_1986.jpg",
-      note: "BEYOND 早期与电影的一次深度合作，主题曲收录于《BEYOND 四拍四》。", kw: "BEYOND 黑色迷墙 电影" },
-    { title: "天若有情", year: "1990", type: "电影", director: "陈木胜",
-      role: "BEYOND 未参演；三首插曲《灰色轨迹》《未曾后悔》《是错也再不分》", img: "assets/covers/mingyunpaidui_1990.jpg",
-      note: "同名主题曲《天若有情》为罗大佑作曲、袁凤瑛演唱，并非 BEYOND 作品。", kw: "BEYOND 天若有情 灰色轨迹" },
-    { title: "豪门夜宴", year: "1991", type: "电影", director: "高志森等四位导演",
-      role: "赈灾群星片；家驹 / 家强 / 世荣客串（贯中未在演员表确认）", img: "assets/photos/band.jpg",
-      note: "为华东水灾筹款的群星电影，BEYOND 成员以 Band Member 身份出镜。", kw: "BEYOND 豪门夜宴" },
-    { title: "Beyond 放暑假", year: "1991", type: "电视", director: "TVB",
-      role: "TVB 暑期档 12 集，四子共同主持；片头曲《高温派对》", img: "assets/photos/band.jpg",
-      note: "BEYOND 难得的电视主持作品，把乐队日常与音乐带进暑期档。", kw: "BEYOND 放暑假 TVB" },
-    { title: "够 hit 斗玩 Beyond + 草蜢", year: "1989", type: "综艺", director: "",
-      role: "音乐特辑（家驹年表列为参演）", img: "assets/covers/youyu_1991.jpg",
-      note: "BEYOND 与草蜢同场的音乐特辑。", kw: "BEYOND 草蜢 够hit斗玩" },
-    { title: "Beyond 特辑之劲 Band 四斗士", year: "1990", type: "综艺", director: "",
-      role: "音乐特辑（家驹年表列为参演）", img: "assets/covers/youyu_1991.jpg",
-      note: "以乐队为主题的电视特辑。", kw: "BEYOND 劲Band四斗士" }
+    {title:  "半边人", year:  "1983", type:  "电影", director:  "方育平", role:  "BEYOND 集体客串：乐队排练场景（镜头不足 1 分钟）", img:  "assets/covers/zaijianlixiang_1986.jpg", note:  "四子最早的银幕留影；1983 年阵容并非后来的四人。", bv:  "BV1Yb411S75U", bvnote:  "40 秒出镜片段", kw:  "半边人 1983 BEYOND"},
+    {title:  "靓妹正传", year:  "1987", type:  "电影", director:  "邱礼涛", role:  "BEYOND 客串（1987 年五子阵容）", img:  "assets/covers/alabodance_1987.jpg", note:  "邱礼涛执导，BEYOND 客串演出。", bv:  "BV1gW411k7vm", bvnote:  "2:32 客串片段", kw:  "靓妹正传 1987 BEYOND"},
+    {title:  "黑色迷墙", year:  "1989", type:  "电影", director:  "刘家勇", role:  "BEYOND 客串 + 全片配乐（署名黄家驹）+ 主题曲《午夜迷墙》", img:  "assets/covers/sipaipai_1989.jpg", note:  "BEYOND 唯一一次全片配乐；原声带 1996 年才首度发行。", bv:  "BV1FatJ6cEMd", bvnote:  "88:16 完整（VHS 采集）", kw:  "黑色迷墙 1989 BEYOND"},
+    {title:  "开心鬼救开心鬼", year:  "1990", type:  "电影", director:  "高志森", role:  "四子饰「文武英杰」；主题曲《战胜心魔》", img:  "assets/covers/beyondiv_1989.jpg", note:  "票房 HK$1178 万，1990 年度第 30 位。", bv:  "BV17YbH6wEtx", bvnote:  "86:34 4K 全片", kw:  "开心鬼救开心鬼 BEYOND"},
+    {title:  "吉星拱照", year:  "1990", type:  "电影", director:  "杜琪峰", role:  "四子饰「向东游 / 向西游 / 向南游 / 向北游」（联合主演）", img:  "assets/covers/xiandaistage_1988.jpg", note:  "1990 年 1 月上映（具体日期词条内两说）。", bv:  "BV11f3NzqEC5", bvnote:  "4:33 四子演唱片段（无完整正片）", kw:  "吉星拱照 BEYOND"},
+    {title:  "天若有情", year:  "1990", type:  "电影", director:  "陈木胜", role:  "BEYOND 未参演；三首插曲《灰色轨迹》《未曾后悔》《是错也再不分》", img:  "assets/covers/mingyunpaidui_1990.jpg", note:  "主题曲《天若有情》为李健达作品、《青春无悔》为袁凤瑛演唱，均非 BEYOND。", bv:  "BV1Bk4y1r75x", bvnote:  "4:26 电影片段（插曲版）", kw:  "天若有情 灰色轨迹 BEYOND"},
+    {title:  "豪门夜宴", year:  "1991", type:  "电影", director:  "高志森等四位导演", role:  "赈灾群星片；家驹 / 家强 / 世荣以 Band Member 身份客串（贯中未确认）", img:  "assets/covers/jixugeming_1992.jpg", note:  "为华东水灾筹款的群星电影。", bv:  "BV15A4m1A7We", bvnote:  "5:00 Beyond 客串段（可直接证明出镜）", kw:  "豪门夜宴 BEYOND 客串"},
+    {title:  "BEYOND 日记之莫欺少年穷", year:  "1991", type:  "电影", director:  "宋豪辉（监制：高志森）", role:  "四子主演：吴家驹 / 谭贯中 / 陈自强 / 林世荣", img:  "assets/covers/yuenuyu_1993.jpg", note:  "1991-08-29 上映，豆瓣 8.2；B站无纯净完整版，只有 Reaction/解说。", bv:  "BV1uuvyBZEU7", bvnote:  "Reaction 全程（非正片）", kw:  "BEYOND 莫欺少年穷 电影"},
+    {title:  "笼民", year:  "1992", type:  "电影", director:  "张之亮", role:  "黄家驹 饰「毛仔」（全片线索人物）", img:  "assets/photos/wongkakui.jpg", note:  "145 分钟；家驹生前最后一部电影，第 12 届金像奖最佳影片。", bv:  "BV19WviBLEhi", bvnote:  "146:39 完整", kw:  "黄家驹 笼民 电影"},
+    {title:  "忍者龟（动画配音）", year:  "1990", type:  "配音", role:  "家驹配「红色龟·拉菲尔」；家强/贯中/世荣分饰其余三龟", img:  "assets/photos/wongkoonchung.jpg", note:  "粤语版动画配音，非银幕演出。", bv:  "BV1be4y1i72X", bvnote:  "片段", kw:  "忍者龟 粤语配音 黄家驹"},
+    {title:  "暴风少年 · 黑仔强", year:  "1987", type:  "电视", director:  "香港电台 RTHK", role:  "家驹客串「卷毛」、贯中主演；片头曲《过去与今天》", img:  "assets/covers/jiurizuji_1988.jpg", note:  "单集约 22 分钟；黄秋生配角。", bv:  "BV12x411Y7M5", bvnote:  "22:01 完整单集", kw:  "暴风少年 黑仔强 BEYOND"},
+    {title:  "小说家族 · 对倒", year:  "1987", type:  "电视", director:  "香港电台 RTHK（导演：张志成）", role:  "家驹 + 贯中客串；林正英、李丽蕊主演", img:  "assets/covers/zhendejianzheng_1989.jpg", note:  "改编刘以鬯《对倒》，单集约 24 分钟。", bv:  "BV1Nx411e7Ej", bvnote:  "24:01 完整（中字）", kw:  "小说家族 对倒 黄家驹"},
+    {title:  "淘气双子星", year:  "1989", type:  "电视", director:  "TVB", role:  "黄贯中 + 黄家强出演；家驹仅负责片头曲《逝去日子》", img:  "assets/covers/jingxi_1997.jpg", note:  "注意：家驹未出演，主视觉不宜放四子合影。", bv:  "BV1FJ411w7hv", bvnote:  "2:07 片头（无完整正片）", kw:  "淘气双子星 BEYOND"},
+    {title:  "Beyond 放暑假", year:  "1991", type:  "综艺", director:  "TVB", role:  "四子共同主持，12 集；主题曲《高温派对》", img:  "assets/covers/youyu_1991.jpg", note:  "豆瓣 9.4，是「影像足迹」最强的门面素材。", bv:  "BV1Ys411Q73S", bvnote:  "399:00 12 集全集", kw:  "BEYOND 放暑假 TVB"},
+    {title:  "暑假玩到尽", year:  "1992", type:  "综艺", role:  "嘉宾（游戏/演出）", img:  "assets/covers/erlouhouzuo_1994.jpg", note:  "B站有片段，另有第二集全场 32:31。", bv:  "BV1Gx411J7YL", bvnote:  "4:06 片段", kw:  "暑假玩到尽 BEYOND"},
+    {title:  "鸡蛋碰石头", year:  "1992", type:  "综艺", director:  "台湾华视系", role:  "嘉宾（游戏/访谈）", img:  "assets/covers/qingjiangshoufangkai_1997.jpg", note:  "台湾综艺，标题明确写节目名。", bv:  "BV1su4y117HP", bvnote:  "11:08 片段", kw:  "鸡蛋碰石头 BEYOND"},
+    {title:  "劲 BAND 四斗士", year:  "1991（待核）", type:  "综艺", director:  "TVB", role:  "四子访谈 + 演出，自述 1983–1991 历程", img:  "assets/covers/sound_1995.jpg", note:  "年份无条目级来源，标「待核」。", bv:  "BV1hW411F737", bvnote:  "47:37 字幕完整版", kw:  "劲BAND四斗士 BEYOND"},
+    {title:  "欢乐今宵 1987–1993 合集", year:  "1987–1993", type:  "综艺", director:  "TVB 翡翠台", role:  "嘉宾演出：1988 中乐版《近代豪侠传》、1990 与曾华倩舞台剧、1993《海阔天空》蓝衣版", img:  "assets/covers/bujianbusan_1999.jpg", note:  "B站为片段合集（19P），无节目单级来源。", bv:  "BV1S54y1C7QK", bvnote:  "108:16 片段合集", kw:  "欢乐今宵 BEYOND"},
+    {title:  "翡翠音乐干线", year:  "1990 年代", type:  "综艺", director:  "TVB", role:  "音乐节目演出 / 访问；1993 有纪念特辑", img:  "assets/covers/goodtime_1999.jpg", note:  "VHS 转录，1993 怀念家驹特辑 59:19。", bv:  "BV1XLc2eGE75", bvnote:  "50:29 完整单集", kw:  "翡翠音乐干线 BEYOND"},
+    {title:  "娱乐新闻眼", year:  "1990 / 1991", type:  "综艺", director:  "TVB", role:  "接受采访（娱乐新闻式短访）", img:  "assets/photos/wongkakeung.jpg", note:  "只适合当资料片段，不做主推卡。", bv:  "BV1wH4y1v7dT", bvnote:  "1:17 片段", kw:  "娱乐新闻眼 BEYOND 1991"},
+    {title:  "台湾综艺（张菲主持，节目名待核）", year:  "1992–1993", type:  "综艺", role:  "嘉宾，长约 90 分钟（接近完整集）", img:  "assets/photos/yipsaiwing.jpg", note:  "是否即《龙兄虎弟》早期集数未获证实，节目名标「待核」。", bv:  "BV1xm4y1W7J3", bvnote:  "90:21 完整版", kw:  "BEYOND 台湾 张菲 综艺"},
+    {title:  "香港金唱片颁奖典礼", year:  "1989", type:  "颁奖", director:  "TVB", role:  "领奖 + 群星合唱", img:  "assets/covers/zaijianlixiang_1986.jpg", note:  "Beyond 部分 11:36。", bv:  "BV11a4y1W7HK", bvnote:  "11:36 Beyond 部分", kw:  "香港金唱片 1989 BEYOND"},
+    {title:  "香港小姐竞选（决赛）", year:  "1989", type:  "晚会", director:  "TVB", role:  "表演嘉宾（助阵跳舞；家驹/世荣约 04:45、家强约 07:18、贯中约 10:52 出场）", img:  "assets/covers/alabodance_1987.jpg", note:  "主源含四人出场时间点，便于剪辑。", bv:  "BV1cp4y1W7yo", bvnote:  "18:28 完整助阵段", kw:  "香港小姐 1989 BEYOND"},
+    {title:  "万家欢乐庆新春", year:  "1989", type:  "晚会", director:  "TVB", role:  "新春特辑游戏：唐装贺岁，歌星队 vs 郭富城艺员队", img:  "assets/covers/xiandaistage_1988.jpg", note:  "农历新年特辑。", bv:  "BV15J411J7jM", bvnote:  "6:59 片段", kw:  "万家欢乐庆新春 1989 BEYOND"},
+    {title:  "太阳计划音乐会", year:  "1990 / 1991", type:  "晚会", director:  "香港电台主办、电视直播", role:  "演出《太阳的心》《可知道》《AMANI》", img:  "assets/covers/sipaipai_1989.jpg", note:  "1990-07-22 与 1991-07-07 第四届。", bv:  "BV1yJ411Q79M", bvnote:  "12:59 片段（3P）", kw:  "太阳计划 BEYOND 1991"},
+    {title:  "演艺界总动员忘我大汇演", year:  "1991-07-27", type:  "晚会", director:  "香港演艺界赈灾义演（电视直播）", role:  "演出《大地》", img:  "assets/photos/band.jpg", note:  "为华东水灾筹款的义演。", bv:  "BV1kM4y1J7GU", bvnote:  "5:16 片段", kw:  "忘我大汇演 1991 BEYOND 大地"},
+    {title:  "十大劲歌金曲颁奖礼", year:  "1989 / 1990", type:  "颁奖", director:  "TVB", role:  "获奖演出（1989《真的爱你》、1990《光辉岁月》）", img:  "assets/covers/beyondiv_1989.jpg", note:  "1989 全场 127:41；1990 全场 126:00。", bv:  "BV1tjs5zNEXr", bvnote:  "1989 完整 127:41", kw:  "十大劲歌金曲 1989 BEYOND"},
+    {title:  "十大中文金曲颁奖礼", year:  "1989 / 1990", type:  "颁奖", director:  "香港电台 RTHK", role:  "获奖演出（1989《真的爱你》、1990《俾面派对》）", img:  "assets/covers/mingyunpaidui_1990.jpg", note:  "1989 片段 4:42；1990 片段 3:28。", bv:  "BV1KJ4m1Y7A5", bvnote:  "1989《真的爱你》片段", kw:  "十大中文金曲 1989 真的爱你"},
+    {title:  "林珊珊 电台访问", year:  "1991 年末", type:  "访谈", director:  "香港电台 / 商台（待核）", role:  "四子电台深度访谈，约 89–90 分钟", img:  "assets/photos/wongkakui.jpg", note:  "分 4P，可按人切片。", bv:  "BV1vw411272r", bvnote:  "89:21 完整（4P）", kw:  "BEYOND 林珊珊 电台访问"},
+    {title:  "叱咤新大陆（商台访问）", year:  "1993-05-21", type:  "访谈", director:  "商业电台", role:  "电台访问 + 不插电现场", img:  "assets/covers/jixugeming_1992.jpg", note:  "家驹离世前约一个月。", bv:  "BV19E411W7Ms", bvnote:  "15:11 片段", kw:  "叱咤新大陆 BEYOND 1993"}
+  ];
+
+  /* ---------------- 背景音乐（经典循环；隐藏播放器，B站源） ---------------- */
+  var MUSIC = [
+    { title: "海阔天空", year: "1993", bv: "BV1dt4y157Pd", durSec: 326 },
+    { title: "光辉岁月", year: "1990", bv: "BV1AM4y1p713", durSec: 296 },
+    { title: "真的爱你", year: "1989", bv: "BV1Fx411g76C", durSec: 279 },
+    { title: "大地", year: "1988", bv: "BV13h4y1c7Bt", durSec: 262 },
+    { title: "喜欢你", year: "1988", bv: "BV1Fx411g72m", durSec: 266 },
+    { title: "不再犹豫", year: "1991", bv: "BV1NS4y137TB", durSec: 260 }
   ];
 
   return {
@@ -534,7 +544,7 @@ window.BY_DATA = (function () {
     QUOTES: QUOTES,
     SCREEN: SCREEN,
     GRAPH: GRAPH,
-    MUSIC: [],
+    MUSIC: MUSIC,
     AWARDS: []
   };
 })();
