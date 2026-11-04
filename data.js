@@ -525,12 +525,12 @@ window.BY_DATA = (function () {
 
   /* ---------------- 背景音乐（经典循环；隐藏播放器，B站源） ---------------- */
   var MUSIC = [
-    { title: "海阔天空", year: "1993", bv: "BV1dt4y157Pd", durSec: 326 },
-    { title: "光辉岁月", year: "1990", bv: "BV1AM4y1p713", durSec: 296 },
-    { title: "真的爱你", year: "1989", bv: "BV1Fx411g76C", durSec: 279 },
-    { title: "大地", year: "1988", bv: "BV13h4y1c7Bt", durSec: 262 },
-    { title: "喜欢你", year: "1988", bv: "BV1Fx411g72m", durSec: 266 },
-    { title: "不再犹豫", year: "1991", bv: "BV1NS4y137TB", durSec: 260 }
+    { title: "海阔天空", year: "1993", file: "assets/audio/hktk.mp3", durSec: 326 },
+    { title: "光辉岁月", year: "1990", file: "assets/audio/ghsy.mp3", durSec: 296 },
+    { title: "真的爱你", year: "1989", file: "assets/audio/zdan.mp3", durSec: 279 },
+    { title: "大地", year: "1988", file: "assets/audio/dadi.mp3", durSec: 262 },
+    { title: "喜欢你", year: "1988", file: "assets/audio/xhn.mp3", durSec: 266 },
+    { title: "不再犹豫", year: "1991", file: "assets/audio/bzyy.mp3", durSec: 260 }
   ];
 
   return {

@@ -150,8 +150,8 @@ html[data-theme="day"] .theme-toggle .icon-sun { display: block; }
   font-family: var(--font-d); font-size: clamp(14px, 1.6vw, 19px);
   letter-spacing: 6px; color: var(--gold); margin-bottom: 18px;
 }
-.hero-title { font-family: var(--font-d); font-weight: 400; line-height: .86; letter-spacing: 1px; }
-.hero-title .line { display: block; font-size: clamp(52px, 10.5vw, 150px); color: var(--text); text-shadow: 0 6px 40px color-mix(in srgb, var(--gold) 25%, transparent); }
+.hero-title { font-family: var(--font-d); font-weight: 400; line-height: 1.02; letter-spacing: 1px; }
+.hero-title .line { display: block; line-height: 1.14; padding-block: .05em; font-size: clamp(48px, 9.6vw, 138px); color: var(--text); text-shadow: 0 6px 40px color-mix(in srgb, var(--gold) 25%, transparent); }
 .hero-title .line-gold {
   background: linear-gradient(100deg, #8f6f16 0%, var(--gold) 28%, #fff7d6 50%, var(--gold) 72%, #8f6f16 100%);
   background-size: 250% auto; -webkit-background-clip: text; background-clip: text; color: transparent;
@@ -1074,3 +1074,20 @@ html[data-theme="day"] { --panel: #fbfaf7; }
   .members-grid, .screen-grid { grid-template-columns: 1fr; }
   .graph-panel { position: static; width: auto; margin: 10px; }
 }
+
+/* 汉字标题防裁切 */
+.hero-title .line-gold { letter-spacing: .08em; }
+.hero-copy { overflow: visible; }
+
+/* ============================ LEGAL / DISCLAIMER ============================ */
+.legal-section { padding-bottom: 30px; }
+.legal-body {
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: color-mix(in srgb, var(--panel) 88%, var(--ink));
+  padding: clamp(20px, 3.4vw, 38px);
+  display: grid; gap: 14px;
+}
+.legal-body p { font-size: 13.5px; line-height: 1.95; color: var(--muted); }
+.legal-body strong { color: var(--gold); font-weight: 600; letter-spacing: .5px; }
+.legal-body a { color: var(--gold); border-bottom: 1px solid color-mix(in srgb, var(--gold) 45%, transparent); }
+.rg-photo { filter: saturate(.95); }

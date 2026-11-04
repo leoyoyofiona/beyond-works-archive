@@ -1324,7 +1324,8 @@
     var COLORS = { person: "#e9c86b", band: "#d9534f", album: "#5b8def", song: "#4caf7d", film: "#b07cf5", tv: "#d98cf0", role: "#8a94a6", platform: "#7fc8d6", award: "#f0a85b" };
     var TYPE_CN = { person: "人物", band: "乐队", album: "专辑", song: "歌曲", film: "电影", tv: "电视", role: "角色", platform: "平台", award: "奖项" };
 
-    var nodes = G.nodes.map(function (n) { return { id: n.id, label: n.label, type: n.type, lead: !!n.lead, x: 0, y: 0, vx: 0, vy: 0, r: n.type === "band" ? 25 : n.type === "person" ? 15 : n.type === "film" || n.type === "tv" ? 14 : n.type === "role" ? 8 : n.type === "award" ? 9 : n.type === "platform" ? 10 : 11 }; });
+    var PHOTO = { koma: "assets/photos/wongkakui.jpg", paul: "assets/photos/wongkoonchung.jpg", steve: "assets/photos/wongkakeung.jpg", wing: "assets/photos/yipsaiwing.jpg" };
+    var nodes = G.nodes.map(function (n) { return { id: n.id, label: n.label, type: n.type, lead: !!n.lead, x: 0, y: 0, vx: 0, vy: 0, photo: PHOTO[n.id] || "", r: n.type === "band" ? 34 : n.type === "person" ? (PHOTO[n.id] ? 26 : 20) : n.type === "film" || n.type === "tv" ? 18 : n.type === "role" ? 11 : n.type === "award" ? 12 : n.type === "platform" ? 13 : 14 }; });
     var byId = {};
     nodes.forEach(function (n) { byId[n.id] = n; });
     var links = (G.links || []).filter(function (l) { return byId[l.s] && byId[l.t]; }).map(function (l) { return { s: byId[l.s], t: byId[l.t], type: l.type, note: l.note }; });
@@ -1335,7 +1336,7 @@
 
     // 分层初始布局：乐队居中、人物环绕、专辑中环、歌曲/影视外环
     (function initLayout() {
-      var rings = { band: 0, person: 130, album: 210, song: 275, film: 305, tv: 320, role: 340, award: 320, platform: 355 };
+      var rings = { band: 0, person: 150, album: 235, song: 300, film: 330, tv: 345, role: 365, award: 345, platform: 380 };
       var counters = {};
       nodes.forEach(function (n) {
         var ring = rings[n.type] || 260;
@@ -1348,6 +1349,8 @@
       });
     })();
 
+    var defs = document.createElementNS(NS, "defs");
+    svg.appendChild(defs);
     var gLinks = document.createElementNS(NS, "g");
     var gNodes = document.createElementNS(NS, "g");
     svg.appendChild(gLinks); svg.appendChild(gNodes);
@@ -1370,16 +1373,39 @@
       halo.setAttribute("fill", "none");
       halo.setAttribute("stroke", "transparent");
       halo.setAttribute("class", "rg-halo");
-      var c = document.createElementNS(NS, "circle");
-      c.setAttribute("r", n.r);
-      c.setAttribute("fill", COLORS[n.type] || "#888");
-      c.setAttribute("fill-opacity", n.lead ? "1" : ".85");
-      c.setAttribute("class", "rg-dot");
+      var c;
+      if (n.photo) {
+        var cp = document.createElementNS(NS, "clipPath");
+        cp.setAttribute("id", "rgclip-" + n.id);
+        var cpc = document.createElementNS(NS, "circle");
+        cpc.setAttribute("r", n.r);
+        cp.appendChild(cpc); defs.appendChild(cp);
+        c = document.createElementNS(NS, "image");
+        c.setAttribute("href", n.photo);
+        c.setAttribute("x", -n.r); c.setAttribute("y", -n.r);
+        c.setAttribute("width", n.r * 2); c.setAttribute("height", n.r * 2);
+        c.setAttribute("preserveAspectRatio", "xMidYMid slice");
+        c.setAttribute("clip-path", "url(#rgclip-" + n.id + ")");
+        c.setAttribute("class", "rg-photo");
+        var ring = document.createElementNS(NS, "circle");
+        ring.setAttribute("r", n.r);
+        ring.setAttribute("fill", "none");
+        ring.setAttribute("stroke", COLORS[n.type]);
+        ring.setAttribute("stroke-width", n.lead ? "3" : "2");
+        ring.setAttribute("class", "rg-ring");
+        g.appendChild(ring);
+      } else {
+        c = document.createElementNS(NS, "circle");
+        c.setAttribute("r", n.r);
+        c.setAttribute("fill", COLORS[n.type] || "#888");
+        c.setAttribute("fill-opacity", n.lead ? "1" : ".85");
+        c.setAttribute("class", "rg-dot");
+      }
       var t = document.createElementNS(NS, "text");
       t.setAttribute("text-anchor", "middle");
-      t.setAttribute("y", n.r + 14);
+      t.setAttribute("y", n.r + 17);
       t.setAttribute("fill", "rgba(232,232,240,.82)");
-      t.setAttribute("font-size", n.type === "band" ? "13" : "10.5");
+      t.setAttribute("font-size", n.type === "band" ? "14" : "11");
       t.setAttribute("letter-spacing", ".5");
       t.setAttribute("class", "rg-label");
       t.textContent = n.label;
@@ -1567,32 +1593,51 @@
     var MUSIC = D.MUSIC || [];
     var btn = document.querySelector(".music-toggle");
     var now = document.getElementById("music-now");
-    var frame = document.getElementById("mp-frame");
-    if (!MUSIC.length || !btn || !frame) return;
-    var idx = 0, timer = null, playing = false;
+    if (!MUSIC.length || !btn) return;
+    var audio = new Audio();
+    audio.preload = "auto";
+    audio.volume = 0;
+    var idx = 0, playing = false, fadeTimer = null;
     function setMsg(t) {
       if (!now) return;
       now.textContent = t || "";
       now.classList.toggle("on", !!t);
     }
-    function stop(quiet) {
-      playing = false;
-      if (timer) { clearTimeout(timer); timer = null; }
-      frame.innerHTML = "";
-      btn.classList.remove("playing");
-      btn.setAttribute("aria-label", "播放背景音乐（经典循环）");
-      btn.title = "背景音乐 · 经典循环";
-      if (!quiet) setMsg("");
+    function fadeTo(target, ms) {
+      if (fadeTimer) { clearInterval(fadeTimer); fadeTimer = null; }
+      var from = audio.volume, steps = Math.max(1, Math.round(ms / 40)), n = 0;
+      fadeTimer = setInterval(function () {
+        n++;
+        audio.volume = Math.min(1, Math.max(0, from + (target - from) * (n / steps)));
+        if (n >= steps) { clearInterval(fadeTimer); fadeTimer = null; }
+      }, 40);
     }
     function playIndex(i) {
       idx = ((i % MUSIC.length) + MUSIC.length) % MUSIC.length;
       var m = MUSIC[idx];
-      frame.innerHTML = '<iframe src="https://player.bilibili.com/player.html?bvid=' + m.bv +
-        '&autoplay=1&danmaku=0&high_quality=1" title="' + m.title + '" allow="autoplay; fullscreen" frameborder="0"></iframe>';
-      setMsg("♪ " + m.title + (m.year ? " · " + m.year : "") + "（背景音乐 · 点喇叭暂停）");
-      if (timer) clearTimeout(timer);
-      var dur = (m.durSec || 240) * 1000;
-      timer = setTimeout(function () { playIndex(idx + 1); }, Math.max(60000, dur - 5000));
+      audio.src = m.file;
+      audio.volume = 0;
+      var p = audio.play();
+      if (p && p.then) p.then(function () {
+        fadeTo(0.6, 1600);
+        setMsg("♪ " + m.title + (m.year ? " · " + m.year : "") + "（背景音乐 · 点喇叭暂停）");
+      }).catch(function () {
+        playing = false;
+        btn.classList.remove("playing");
+        setMsg("音乐被浏览器拦截了，请再点一次喇叭 🎵");
+      });
+    }
+    audio.addEventListener("ended", function () { if (playing) playIndex(idx + 1); });
+    function stop(quiet) {
+      playing = false;
+      if (fadeTimer) { clearInterval(fadeTimer); fadeTimer = null; }
+      audio.pause();
+      audio.removeAttribute("src");
+      audio.load();
+      btn.classList.remove("playing");
+      btn.setAttribute("aria-label", "播放背景音乐（经典循环）");
+      btn.title = "背景音乐 · 经典循环";
+      if (!quiet) setMsg("");
     }
     function play() {
       stopActiveFrame(); // 互斥：先停掉视频/大屏
@@ -1604,6 +1649,32 @@
     }
     btn.addEventListener("click", function () { if (playing) stop(); else play(); });
     window.__byMusicStop = stop;
+  })();
+
+
+  /* ---------- 舞台瞬间（现场封面画廊） ---------- */
+  (function renderStage() {
+    var host = document.getElementById("stage-gallery");
+    if (!host || !D.CONCERTS) return;
+    var items = [];
+    (D.CONCERTS || []).forEach(function (c) {
+      if (c.bv) items.push({ title: c.title, sub: c.years || "现场", bv: c.bv, img: c.img });
+    });
+    (D.VIDEOS || []).forEach(function (v) {
+      if (v.kind === "live" && v.bv) items.push({ title: v.title, sub: v.yearLabel || "现场", bv: v.bv, img: v.img });
+    });
+    var seen = {};
+    items = items.filter(function (it) { if (seen[it.bv]) return false; seen[it.bv] = 1; return true; }).slice(0, 16);
+    items.forEach(function (it, i) {
+      var a = document.createElement("a");
+      a.className = "g-item";
+      a.href = "https://www.bilibili.com/video/" + it.bv;
+      a.target = "_blank"; a.rel = "noopener";
+      a.style.setProperty("--d", Math.min(i * 50, 300) + "ms");
+      a.innerHTML = '<img src="' + (THUMBS[it.bv] || it.img) + '" alt="' + it.title + ' · 舞台画面" loading="lazy" />' +
+        '<span class="g-cap"><strong>' + it.title + '</strong><small>' + it.sub + '</small></span>';
+      host.appendChild(a);
+    });
   })();
 
 
