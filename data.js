@@ -94,11 +94,11 @@ window.BY_DATA = (function () {
       life: "1963.08.19", img: "assets/photos/yipsaiwing.jpg", lead: false,
       desc: "创团成员之一，BEYOND 的节奏地基。乐队解散后转向鼓手教学、音乐制作与演出。" },
     { name: "刘志远", en: "LAU CHI YUEN", role: "键盘 / 吉他", years: "1986 — 1988",
-      life: "", img: "", lead: false,
-      desc: "早期重要成员，参与《亚拉伯跳舞女郎》《现代舞台》时期编曲，1988 年离队。" },
+      life: "1969.03.08", img: "assets/photos/lau_chiyuen.jpg", lead: false,
+      desc: "早期重要成员，1986 年以键盘手身份加入，参与《现代舞台》等专辑与《旧日的足迹》钢琴前奏编曲，1988 年离队后组「浮世绘」并转战幕后。" },
     { name: "邓炜谦", en: "TANG WAI HIM", role: "主音吉他", years: "1983",
-      life: "", img: "", lead: false,
-      desc: "创团成员，「BEYOND」这个名字正是由他提出，1983 年底离队。" }
+      life: "", img: "assets/photos/tang_waihim.jpg", lead: false,
+      desc: "创团成员与首任主音吉他手，「BEYOND」这个名字正是由他提出，参与创作乐队首支原创《Brain Attack》，1983 年底离队。" }
   ];
 
   /* ---------------- 视频（全部为 B 站已核验源；YouTube 待补） ---------------- */
