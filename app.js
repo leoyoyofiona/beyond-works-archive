@@ -1319,10 +1319,10 @@
     var G = D.GRAPH;
     if (!G || !G.nodes || !G.nodes.length) return;
     var NS = "http://www.w3.org/2000/svg";
-    var COLORS = { person: "#e9c86b", band: "#d9534f", album: "#5b8def", song: "#4caf7d", film: "#b07cf5" };
-    var TYPE_CN = { person: "人物", band: "乐队", album: "专辑", song: "歌曲", film: "影视", show: "节目", director: "导演", role: "角色" };
+    var COLORS = { person: "#e9c86b", band: "#d9534f", album: "#5b8def", song: "#4caf7d", film: "#b07cf5", tv: "#d98cf0", role: "#8a94a6", platform: "#7fc8d6", award: "#f0a85b" };
+    var TYPE_CN = { person: "人物", band: "乐队", album: "专辑", song: "歌曲", film: "电影", tv: "电视", role: "角色", platform: "平台", award: "奖项" };
 
-    var nodes = G.nodes.map(function (n) { return { id: n.id, label: n.label, type: n.type, lead: !!n.lead, x: 0, y: 0, vx: 0, vy: 0, r: n.type === "band" ? 26 : n.type === "person" ? 17 : 13 }; });
+    var nodes = G.nodes.map(function (n) { return { id: n.id, label: n.label, type: n.type, lead: !!n.lead, x: 0, y: 0, vx: 0, vy: 0, r: n.type === "band" ? 25 : n.type === "person" ? 15 : n.type === "film" || n.type === "tv" ? 14 : n.type === "role" ? 8 : n.type === "award" ? 9 : n.type === "platform" ? 10 : 11 }; });
     var byId = {};
     nodes.forEach(function (n) { byId[n.id] = n; });
     var links = (G.links || []).filter(function (l) { return byId[l.s] && byId[l.t]; }).map(function (l) { return { s: byId[l.s], t: byId[l.t], type: l.type, note: l.note }; });
@@ -1333,7 +1333,7 @@
 
     // 分层初始布局：乐队居中、人物环绕、专辑中环、歌曲/影视外环
     (function initLayout() {
-      var rings = { person: 150, album: 235, song: 330, film: 330, band: 0 };
+      var rings = { band: 0, person: 130, album: 210, song: 275, film: 305, tv: 320, role: 340, award: 320, platform: 355 };
       var counters = {};
       nodes.forEach(function (n) {
         var ring = rings[n.type] || 260;
@@ -1379,7 +1379,9 @@
       t.setAttribute("fill", "rgba(232,232,240,.82)");
       t.setAttribute("font-size", n.type === "band" ? "13" : "10.5");
       t.setAttribute("letter-spacing", ".5");
+      t.setAttribute("class", "rg-label");
       t.textContent = n.label;
+      if (["song", "role", "award", "platform"].indexOf(n.type) !== -1) t.setAttribute("opacity", "0");
       g.appendChild(halo); g.appendChild(c); g.appendChild(t);
       g.appendChild(titleEl(n.label));
       gNodes.appendChild(g);
@@ -1441,6 +1443,11 @@
       nodes.forEach(function (m, i) {
         var on = !n || set[m.id];
         nodeEls[i].style.opacity = on ? "1" : ".22";
+        var label = nodeEls[i].querySelector(".rg-label");
+        if (label) {
+          var def = ["song", "role", "award", "platform"].indexOf(m.type) === -1;
+          label.setAttribute("opacity", def || (n && set[m.id]) ? "1" : "0");
+        }
       });
       linkEls.forEach(function (el, i) {
         var l = links[i];
@@ -1450,6 +1457,12 @@
     }
 
     // 筛选
+    var GROUPS = { work: ["album", "song"], screen: ["film", "tv"], honor: ["award", "platform"] };
+    function typeInGroup(t, g) {
+      if (g === "all") return true;
+      if (GROUPS[g]) return GROUPS[g].indexOf(t) !== -1;
+      return t === g;
+    }
     var chips = document.querySelectorAll(".gt-chip");
     chips.forEach(function (b) {
       b.addEventListener("click", function () {
@@ -1457,12 +1470,12 @@
         b.classList.add("active");
         activeType = b.getAttribute("data-gtype");
         nodes.forEach(function (m, i) {
-          var ok = activeType === "all" || m.type === activeType;
+          var ok = typeInGroup(m.type, activeType);
           nodeEls[i].style.opacity = ok ? "1" : ".15";
         });
         linkEls.forEach(function (el, i) {
           var l = links[i];
-          var ok = activeType === "all" || l.s.type === activeType || l.t.type === activeType;
+          var ok = typeInGroup(l.s.type, activeType) || typeInGroup(l.t.type, activeType);
           el.style.opacity = ok ? "1" : ".08";
         });
       });
@@ -1520,5 +1533,29 @@
     }
     tick();
   })();
+
+  /* ---------- 影像足迹（电影 / 电视 / 综艺） ---------- */
+  (function renderScreen() {
+    var grid = document.getElementById("screen-grid");
+    if (!grid) return;
+    (D.SCREEN || []).forEach(function (s, i) {
+      var card = document.createElement("article");
+      card.className = "screen-card";
+      stagger(card, i);
+      var kw = encodeURIComponent(s.kw || s.title);
+      card.innerHTML =
+        '<div class="sc-media"><img src="' + s.img + '" alt="' + s.title + '" loading="lazy" />' +
+          '<span class="sc-type">' + s.type + "</span></div>" +
+        '<div class="sc-body">' +
+          "<h3>" + s.title + "</h3>" +
+          '<div class="sc-meta">' + s.year + (s.director ? " · " + s.director : "") + "</div>" +
+          "<p>" + s.role + "</p>" +
+          '<p style="margin-top:6px">' + s.note + "</p>" +
+          '<div class="sc-links"><a href="https://search.bilibili.com/all?keyword=' + kw + '" target="_blank" rel="noopener">B站搜相关影像 ↗</a></div>' +
+        "</div>";
+      grid.appendChild(card);
+    });
+  })();
+
 
 })();
