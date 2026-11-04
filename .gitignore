@@ -1,0 +1,4 @@
+research-*.md
+coscli_output/
+*.log
+.DS_Store
