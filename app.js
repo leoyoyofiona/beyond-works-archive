@@ -348,7 +348,7 @@
   var KIND_LABEL = { mv: "MV·短篇", live: "现场", doc: "纪录", bts: "幕后 BTS", other: "其他" };
 
   function embedSrc(v, r) {
-    if (r === "cn") return v.bv ? "https://player.bilibili.com/player.html?bvid=" + v.bv + "&autoplay=1&danmaku=0" : null;
+    if (r === "cn") return v.bv ? "https://player.bilibili.com/player.html?isOutside=true&bvid=" + v.bv + "&autoplay=1&danmaku=0" : null;
     return v.yt ? "https://www.youtube.com/embed/" + v.yt + "?rel=0" : null;
   }
   function fallbackUrl(v, r) {
@@ -360,7 +360,7 @@
   }
   function iframeSrcFor(v, plat) {
     if (!plat || plat === "auto") plat = v.bv ? "bv" : "yt";
-    if (plat === "bv" && v.bv) return "https://player.bilibili.com/player.html?bvid=" + v.bv + "&autoplay=1&danmaku=0&high_quality=1";
+    if (plat === "bv" && v.bv) return "https://player.bilibili.com/player.html?isOutside=true&bvid=" + v.bv + "&autoplay=1&danmaku=0&high_quality=1";
     if (plat === "yt" && v.yt) return "https://www.youtube.com/embed/" + v.yt + "?rel=0&autoplay=1";
     return v.yt ? "https://www.youtube.com/embed/" + v.yt + "?rel=0&autoplay=1" : "";
   }
@@ -378,7 +378,7 @@
   }
 
   function playSrc(v, r) {
-    if (r === "cn") return v.bv ? "https://player.bilibili.com/player.html?bvid=" + v.bv + "&autoplay=1&danmaku=0&high_quality=1" : null;
+    if (r === "cn") return v.bv ? "https://player.bilibili.com/player.html?isOutside=true&bvid=" + v.bv + "&autoplay=1&danmaku=0&high_quality=1" : null;
     return v.yt ? "https://www.youtube.com/embed/" + v.yt + "?rel=0&autoplay=1" : null;
   }
   function posterForVideo(v) {
@@ -661,7 +661,7 @@
       }
       var ifr = document.createElement("iframe");
       ifr.className = "mp-bili";
-      ifr.setAttribute("src", "https://player.bilibili.com/player.html?bvid=" + cur.bv + "&autoplay=1&danmaku=0&high_quality=1&muted=0");
+      ifr.setAttribute("src", "https://player.bilibili.com/player.html?isOutside=true&bvid=" + cur.bv + "&autoplay=1&danmaku=0&high_quality=1&muted=0");
       ifr.setAttribute("allow", "autoplay; fullscreen; encrypted-media; picture-in-picture");
       ifr.setAttribute("allowfullscreen", "true");
       mpFrame.appendChild(ifr);
@@ -844,7 +844,7 @@
     var mi2 = 0, mOn = false, mPlat = "", veilTimer = null;
     function mSrcFor(m, plat) {
       plat = plat || (region === "cn" ? (m.bv ? "bv" : "yt") : (m.yt ? "yt" : "bv"));
-      if (plat === "bv" && m.bv) return "https://player.bilibili.com/player.html?bvid=" + m.bv + "&autoplay=1&danmaku=0&high_quality=1";
+      if (plat === "bv" && m.bv) return "https://player.bilibili.com/player.html?isOutside=true&bvid=" + m.bv + "&autoplay=1&danmaku=0&high_quality=1";
       if (plat === "yt" && m.yt) return "https://www.youtube.com/embed/" + m.yt + "?rel=0&autoplay=1";
       return "";
     }

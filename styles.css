@@ -1094,3 +1094,7 @@ html[data-theme="day"] { --panel: #fbfaf7; }
 
 /* 图谱标签：描边保证在连线/节点上仍可读，且不遮挡图形 */
 .rg-label { paint-order: stroke; stroke: rgba(8, 9, 14, .92); stroke-width: 3.5px; stroke-linejoin: round; }
+
+/* 大屏播放时：信息层不拦截播放器控制条的点击 */
+.moment-info { pointer-events: none; }
+.moment-stage.live .moment-info { opacity: 0; }
