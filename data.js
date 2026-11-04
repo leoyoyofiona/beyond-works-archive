@@ -141,8 +141,8 @@ window.BY_DATA = (function () {
       yearLabel: "1989 现场", note: "《岁月无声》现场影像。", kw: "BEYOND 岁月无声 现场" },
     { id: "v19", title: "旧日的足迹", year: "1986", kind: "mv", bv: "BV1MW411q7rF", img: "assets/covers/jiurizuji_1988.jpg",
       yearLabel: "MV", note: "原版 MV。", kw: "BEYOND 旧日的足迹 MV" },
-    { id: "v20", title: "旧日的足迹 · 1986 台北演唱会", year: "1986", kind: "live", bv: "BV1hH4y1B7kF", img: "assets/covers/zaijianlixiang_1986.jpg",
-      yearLabel: "1986 现场", note: "1986 台北演唱会现场片段。", kw: "BEYOND 旧日的足迹 台北 1986" },
+    { id: "v20", title: "旧日的足迹 · 1986 中国台湾·台北演唱会", year: "1986", kind: "live", bv: "BV1hH4y1B7kF", img: "assets/covers/zaijianlixiang_1986.jpg",
+      yearLabel: "1986 现场", note: "1986 中国台湾·台北演唱会现场片段。", kw: "BEYOND 旧日的足迹 台北 1986" },
     { id: "v21", title: "再见理想", year: "1986", kind: "mv", bv: "BV1pv4y1c7Pb", img: "assets/covers/zaijianlixiang_1986.jpg",
       yearLabel: "1986 录音室版", note: "录音室版配画面，4K 珍藏。", kw: "BEYOND 再见理想 1986" },
     { id: "v22", title: "再见理想 · 1989 现场", year: "1989", kind: "live", bv: "BV1ys41127iH", img: "assets/covers/zaijianlixiang_1986.jpg",
@@ -191,7 +191,7 @@ window.BY_DATA = (function () {
   /* ---------------- 现场演唱会（整场/大型现场） ---------------- */
   var CONCERTS = [
     { title: "永远等待演唱会", years: "1985 · 香港", tag: "地下时期", desc: "BEYOND 早期自资演唱会，现存完整音频档案（91 分钟）。", img: "assets/covers/zaijianlixiang_1986.jpg", bv: "BV1yf4y1R7fp", kw: "BEYOND 1985 永远等待演唱会" },
-    { title: "台北演唱会", years: "1986 · 台北", tag: "现场", desc: "1986 年台北演唱会完整影像（57 分钟，字幕版）。", img: "assets/covers/zaijianlixiang_1986.jpg", bv: "BV1Ux411k7dW", kw: "BEYOND 1986 台北演唱会" },
+    { title: "台北演唱会", years: "1986 · 台北", tag: "现场", desc: "1986 年中国台湾·台北演唱会完整影像（57 分钟，字幕版）。", img: "assets/covers/zaijianlixiang_1986.jpg", bv: "BV1Ux411k7dW", kw: "BEYOND 1986 台北演唱会" },
     { title: "北京工体演唱会", years: "1988 · 北京", tag: "现场", desc: "1988 年北京工人体育场演出，74 分钟完整版。", img: "assets/covers/mimijingcha_1988.jpg", bv: "BV16h4y1V7zr", kw: "BEYOND 1988 北京 工体 演唱会" },
     { title: "大专会堂「苹果牌演唱会」", years: "1988 · 香港", tag: "现场", desc: "1988 年大专会堂演出，86 分钟（来源待复核）。", img: "assets/covers/xiandaistage_1988.jpg", bv: "BV1EL4y1u7yV", kw: "BEYOND 1988 大专会堂 苹果牌演唱会" },
     { title: "真的见证演唱会", years: "1989 · 香港", tag: "现场", desc: "1989 年「真的见证」第七场，136 分钟电台版。", img: "assets/covers/zhendejianzheng_1989.jpg", bv: "BV1wW4y177uj", kw: "BEYOND 1989 真的见证演唱会" },
@@ -207,13 +207,13 @@ window.BY_DATA = (function () {
   /* ---------------- 图集（真实照片/封面，新标签打开） ---------------- */
   var GALLERY = [
     { title: "BEYOND 乐队合影", sub: "乐队公开宣传照", img: "assets/photos/band.jpg", src: "assets/photos/band.jpg" },
-    { title: "黄家驹", sub: "主唱 / 创作核心", img: "assets/photos/wongkakui.jpg", src: "assets/photos/wongkakui.jpg" },
-    { title: "黄贯中", sub: "主音吉他", img: "assets/photos/wongkoonchung.jpg", src: "assets/photos/wongkoonchung.jpg" },
-    { title: "黄家强", sub: "贝斯", img: "assets/photos/wongkakeung.jpg", src: "assets/photos/wongkakeung.jpg" },
-    { title: "叶世荣", sub: "鼓", img: "assets/photos/yipsaiwing.jpg", src: "assets/photos/yipsaiwing.jpg" },
-    { title: "《乐与怒》封面", sub: "1993 · 家驹最后一张专辑", img: "assets/covers/yuenuyu_1993.jpg", src: "assets/covers/yuenuyu_1993.jpg" },
-    { title: "《再见理想》封面", sub: "1986 · 自资首张", img: "assets/covers/zaijianlixiang_1986.jpg", src: "assets/covers/zaijianlixiang_1986.jpg" },
-    { title: "《犹豫》封面", sub: "1991 · AMANI", img: "assets/covers/youyu_1991.jpg", src: "assets/covers/youyu_1991.jpg" }
+    { title: "1991 生命接触演唱会", sub: "红馆 · 现场影像", img: "assets/thumbs/BV1FV411o7FT.jpg", src: "https://www.bilibili.com/video/BV1FV411o7FT" },
+    { title: "1989 真的见证演唱会", sub: "现场影像", img: "assets/thumbs/BV1wW4y177uj.jpg", src: "https://www.bilibili.com/video/BV1wW4y177uj" },
+    { title: "1986 台北演唱会", sub: "现场影像", img: "assets/thumbs/BV1Ux411k7dW.jpg", src: "https://www.bilibili.com/video/BV1Ux411k7dW" },
+    { title: "1988 北京工体演唱会", sub: "现场影像", img: "assets/thumbs/BV16h4y1V7zr.jpg", src: "https://www.bilibili.com/video/BV16h4y1V7zr" },
+    { title: "1993 马来西亚不插电", sub: "现场影像", img: "assets/thumbs/BV1Vv411z7X6.jpg", src: "https://www.bilibili.com/video/BV1Vv411z7X6" },
+    { title: "1996 Live & Basic", sub: "三子时期红馆", img: "assets/thumbs/BV15m4y187PC.jpg", src: "https://www.bilibili.com/video/BV15m4y187PC" },
+    { title: "2005 The Story Live", sub: "告别演唱会", img: "assets/thumbs/BV1rs411b7e8.jpg", src: "https://www.bilibili.com/video/BV1rs411b7e8" }
   ];
 
   /* ---------------- Hero 轮播 ---------------- */
@@ -506,12 +506,12 @@ window.BY_DATA = (function () {
     {title:  "淘气双子星", year:  "1989", type:  "电视", director:  "TVB", role:  "黄贯中 + 黄家强出演；家驹仅负责片头曲《逝去日子》", img:  "assets/covers/jingxi_1997.jpg", note:  "注意：家驹未出演，主视觉不宜放四子合影。", bv:  "BV1FJ411w7hv", bvnote:  "2:07 片头（无完整正片）", kw:  "淘气双子星 BEYOND"},
     {title:  "Beyond 放暑假", year:  "1991", type:  "综艺", director:  "TVB", role:  "四子共同主持，12 集；主题曲《高温派对》", img:  "assets/covers/youyu_1991.jpg", note:  "豆瓣 9.4，是「影像足迹」最强的门面素材。", bv:  "BV1Ys411Q73S", bvnote:  "399:00 12 集全集", kw:  "BEYOND 放暑假 TVB"},
     {title:  "暑假玩到尽", year:  "1992", type:  "综艺", role:  "嘉宾（游戏/演出）", img:  "assets/covers/erlouhouzuo_1994.jpg", note:  "B站有片段，另有第二集全场 32:31。", bv:  "BV1Gx411J7YL", bvnote:  "4:06 片段", kw:  "暑假玩到尽 BEYOND"},
-    {title:  "鸡蛋碰石头", year:  "1992", type:  "综艺", director:  "台湾华视系", role:  "嘉宾（游戏/访谈）", img:  "assets/covers/qingjiangshoufangkai_1997.jpg", note:  "台湾综艺，标题明确写节目名。", bv:  "BV1su4y117HP", bvnote:  "11:08 片段", kw:  "鸡蛋碰石头 BEYOND"},
+    {title:  "鸡蛋碰石头", year:  "1992", type:  "综艺", director:  "中国台湾华视系", role:  "嘉宾（游戏/访谈）", img:  "assets/covers/qingjiangshoufangkai_1997.jpg", note:  "中国台湾综艺，标题明确写节目名。", bv:  "BV1su4y117HP", bvnote:  "11:08 片段", kw:  "鸡蛋碰石头 BEYOND"},
     {title:  "劲 BAND 四斗士", year:  "1991（待核）", type:  "综艺", director:  "TVB", role:  "四子访谈 + 演出，自述 1983–1991 历程", img:  "assets/covers/sound_1995.jpg", note:  "年份无条目级来源，标「待核」。", bv:  "BV1hW411F737", bvnote:  "47:37 字幕完整版", kw:  "劲BAND四斗士 BEYOND"},
     {title:  "欢乐今宵 1987–1993 合集", year:  "1987–1993", type:  "综艺", director:  "TVB 翡翠台", role:  "嘉宾演出：1988 中乐版《近代豪侠传》、1990 与曾华倩舞台剧、1993《海阔天空》蓝衣版", img:  "assets/covers/bujianbusan_1999.jpg", note:  "B站为片段合集（19P），无节目单级来源。", bv:  "BV1S54y1C7QK", bvnote:  "108:16 片段合集", kw:  "欢乐今宵 BEYOND"},
     {title:  "翡翠音乐干线", year:  "1990 年代", type:  "综艺", director:  "TVB", role:  "音乐节目演出 / 访问；1993 有纪念特辑", img:  "assets/covers/goodtime_1999.jpg", note:  "VHS 转录，1993 怀念家驹特辑 59:19。", bv:  "BV1XLc2eGE75", bvnote:  "50:29 完整单集", kw:  "翡翠音乐干线 BEYOND"},
     {title:  "娱乐新闻眼", year:  "1990 / 1991", type:  "综艺", director:  "TVB", role:  "接受采访（娱乐新闻式短访）", img:  "assets/photos/wongkakeung.jpg", note:  "只适合当资料片段，不做主推卡。", bv:  "BV1wH4y1v7dT", bvnote:  "1:17 片段", kw:  "娱乐新闻眼 BEYOND 1991"},
-    {title:  "台湾综艺（张菲主持，节目名待核）", year:  "1992–1993", type:  "综艺", role:  "嘉宾，长约 90 分钟（接近完整集）", img:  "assets/photos/yipsaiwing.jpg", note:  "是否即《龙兄虎弟》早期集数未获证实，节目名标「待核」。", bv:  "BV1xm4y1W7J3", bvnote:  "90:21 完整版", kw:  "BEYOND 台湾 张菲 综艺"},
+    {title:  "中国台湾综艺（张菲主持，节目名待核）", year:  "1992–1993", type:  "综艺", role:  "嘉宾，长约 90 分钟（接近完整集）", img:  "assets/photos/yipsaiwing.jpg", note:  "是否即《龙兄虎弟》早期集数未获证实，节目名标「待核」。", bv:  "BV1xm4y1W7J3", bvnote:  "90:21 完整版", kw:  "BEYOND 台湾 张菲 综艺"},
     {title:  "香港金唱片颁奖典礼", year:  "1989", type:  "颁奖", director:  "TVB", role:  "领奖 + 群星合唱", img:  "assets/covers/zaijianlixiang_1986.jpg", note:  "Beyond 部分 11:36。", bv:  "BV11a4y1W7HK", bvnote:  "11:36 Beyond 部分", kw:  "香港金唱片 1989 BEYOND"},
     {title:  "香港小姐竞选（决赛）", year:  "1989", type:  "晚会", director:  "TVB", role:  "表演嘉宾（助阵跳舞；家驹/世荣约 04:45、家强约 07:18、贯中约 10:52 出场）", img:  "assets/covers/alabodance_1987.jpg", note:  "主源含四人出场时间点，便于剪辑。", bv:  "BV1cp4y1W7yo", bvnote:  "18:28 完整助阵段", kw:  "香港小姐 1989 BEYOND"},
     {title:  "万家欢乐庆新春", year:  "1989", type:  "晚会", director:  "TVB", role:  "新春特辑游戏：唐装贺岁，歌星队 vs 郭富城艺员队", img:  "assets/covers/xiandaistage_1988.jpg", note:  "农历新年特辑。", bv:  "BV15J411J7jM", bvnote:  "6:59 片段", kw:  "万家欢乐庆新春 1989 BEYOND"},
@@ -524,14 +524,7 @@ window.BY_DATA = (function () {
   ];
 
   /* ---------------- 背景音乐（经典循环；隐藏播放器，B站源） ---------------- */
-  var MUSIC = [
-    { title: "海阔天空", year: "1993", file: "assets/audio/hktk.mp3", durSec: 326 },
-    { title: "光辉岁月", year: "1990", file: "assets/audio/ghsy.mp3", durSec: 296 },
-    { title: "真的爱你", year: "1989", file: "assets/audio/zdan.mp3", durSec: 279 },
-    { title: "大地", year: "1988", file: "assets/audio/dadi.mp3", durSec: 262 },
-    { title: "喜欢你", year: "1988", file: "assets/audio/xhn.mp3", durSec: 266 },
-    { title: "不再犹豫", year: "1991", file: "assets/audio/bzyy.mp3", durSec: 260 }
-  ];
+  var MUSIC = [];
 
   return {
     ALBUMS: ALBUMS,

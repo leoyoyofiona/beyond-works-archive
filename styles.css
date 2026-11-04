@@ -19,7 +19,7 @@
   --red: #b32746;
   --radius: 3px;
   --gutter: clamp(20px, 4.5vw, 88px);
-  --font-d: "Bebas Neue", Impact, "Arial Narrow", sans-serif;
+  --font-d: Impact, "Arial Narrow", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   --font-s: "Lexend", "Inter", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
   --maxw: 1280px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -1091,3 +1091,6 @@ html[data-theme="day"] { --panel: #fbfaf7; }
 .legal-body strong { color: var(--gold); font-weight: 600; letter-spacing: .5px; }
 .legal-body a { color: var(--gold); border-bottom: 1px solid color-mix(in srgb, var(--gold) 45%, transparent); }
 .rg-photo { filter: saturate(.95); }
+
+/* 图谱标签：描边保证在连线/节点上仍可读，且不遮挡图形 */
+.rg-label { paint-order: stroke; stroke: rgba(8, 9, 14, .92); stroke-width: 3.5px; stroke-linejoin: round; }

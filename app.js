@@ -338,7 +338,7 @@
      04 · 视听馆 & 05 · 现场 —— 地区切换 + 视频嵌入（懒加载）
      ============================================================ */
   var region = "ow";
-  try { region = localStorage.getItem("by-region") || "ow"; } catch (e) {}
+  try { region = localStorage.getItem("by-region") || ((location.hostname || "").indexOf("dengzhimin.cn") !== -1 ? "cn" : "ow"); } catch (e) {}
   var regionBtns = document.querySelectorAll(".region-toggle button");
   var userPickedRegion = false; // 用户本次手动切换过则尊重用户选择
   var watchNote = document.getElementById("watch-note");
@@ -348,7 +348,7 @@
   var KIND_LABEL = { mv: "MV·短篇", live: "现场", doc: "纪录", bts: "幕后 BTS", other: "其他" };
 
   function embedSrc(v, r) {
-    if (r === "cn") return v.bv ? "https://player.bilibili.com/player.html?bvid=" + v.bv + "&autoplay=0&danmaku=0" : null;
+    if (r === "cn") return v.bv ? "https://player.bilibili.com/player.html?bvid=" + v.bv + "&autoplay=1&danmaku=0" : null;
     return v.yt ? "https://www.youtube.com/embed/" + v.yt + "?rel=0" : null;
   }
   function fallbackUrl(v, r) {
@@ -360,9 +360,9 @@
   }
   function iframeSrcFor(v, plat) {
     if (!plat || plat === "auto") plat = v.bv ? "bv" : "yt";
-    if (plat === "bv" && v.bv) return "https://player.bilibili.com/player.html?bvid=" + v.bv + "&autoplay=0&danmaku=0&high_quality=1";
-    if (plat === "yt" && v.yt) return "https://www.youtube.com/embed/" + v.yt + "?rel=0&autoplay=0";
-    return v.yt ? "https://www.youtube.com/embed/" + v.yt + "?rel=0&autoplay=0" : "";
+    if (plat === "bv" && v.bv) return "https://player.bilibili.com/player.html?bvid=" + v.bv + "&autoplay=1&danmaku=0&high_quality=1";
+    if (plat === "yt" && v.yt) return "https://www.youtube.com/embed/" + v.yt + "?rel=0&autoplay=1";
+    return v.yt ? "https://www.youtube.com/embed/" + v.yt + "?rel=0&autoplay=1" : "";
   }
   function sourceChips(v) {
     var h = "";
@@ -378,8 +378,8 @@
   }
 
   function playSrc(v, r) {
-    if (r === "cn") return v.bv ? "https://player.bilibili.com/player.html?bvid=" + v.bv + "&autoplay=0&danmaku=0&high_quality=1" : null;
-    return v.yt ? "https://www.youtube.com/embed/" + v.yt + "?rel=0&autoplay=0" : null;
+    if (r === "cn") return v.bv ? "https://player.bilibili.com/player.html?bvid=" + v.bv + "&autoplay=1&danmaku=0&high_quality=1" : null;
+    return v.yt ? "https://www.youtube.com/embed/" + v.yt + "?rel=0&autoplay=1" : null;
   }
   function posterForVideo(v) {
     var byId = { v1: "otw", v2: "thriller", v3: "thriller", v4: "thriller", v5: "bad", v6: "bad", v7: "bad", v8: "dangerous", v9: "dangerous", v10: "dangerous", v11: "history", v12: "history", v13: "kop", v14: "dangerous", v15: "bad", v16: "history", v17: "history", v18: "invincible", v19: "thisisit" };
@@ -404,7 +404,7 @@
         '<div class="w-meta"><span>' + v.year + '</span><span class="k">' + (KIND_LABEL[v.kind] || "视频") + '</span></div>' +
         '<h3>' + v.title + '</h3><p>' + v.note + '</p>' +
         sourceChips(v) +
-        '<a class="go" href="' + fallbackUrl(v, r) + '" target="_blank" rel="noopener">外部打开 ↗</a>' +
+        '<a class="go" href="' + fallbackUrl(v, r) + '" target="_blank" rel="noopener">在 B 站打开 ↗</a>' +
       "</div>";
     var wf0 = card.querySelector(".watch-frame");
     wf0.__poster = wf0.innerHTML;
@@ -417,7 +417,14 @@
       wf.classList.add("playing");
       activeFrame = wf;
     }
-    card.querySelector(".wf-play").addEventListener("click", function () { var ps = pickSource(v); if (ps === "search") { window.open(fallbackUrl(v, r), "_blank"); return; } playIn(ps); });
+    card.querySelector(".wf-play").addEventListener("click", function (e) { e.stopPropagation(); var ps = pickSource(v); if (ps === "search") { window.open(fallbackUrl(v, r), "_blank"); return; } playIn(ps); });
+    wf0.addEventListener("click", function (e) {
+      if (e.target.closest && (e.target.closest(".psrc") || e.target.closest("iframe"))) return;
+      if (wf0.classList.contains("playing")) return;
+      var ps = pickSource(v);
+      if (ps === "search") { window.open(fallbackUrl(v, r), "_blank"); return; }
+      playIn(ps);
+    });
     card.querySelectorAll(".psrc").forEach(function (b) {
       b.addEventListener("click", function () { playIn(b.getAttribute("data-p")); });
     });
@@ -430,7 +437,6 @@
     if (replayStopFn) { try { replayStopFn(); } catch (e) {} }
     if (momentStopFn) { try { momentStopFn(); } catch (e) {} }
     stopMusic(true); // 互斥：视频/大屏开播时背景音乐一并停掉
-    if (window.__byMusicStop) { try { window.__byMusicStop(true); } catch (e) {} }
     if (activeFrame && activeFrame.__poster !== undefined) {
       activeFrame.innerHTML = activeFrame.__poster;
       activeFrame.classList.remove("playing");
@@ -461,7 +467,7 @@
         '<div class="w-meta"><span>' + v.year + '</span><span class="k">现场 LIVE</span></div>' +
         '<h3>' + v.title + "</h3><p>" + v.note + "</p>" +
         sourceChips(v) +
-        '<a class="go" href="' + fallbackUrl(v, region) + '" target="_blank" rel="noopener">外部打开 ↗</a>' +
+        '<a class="go" href="' + fallbackUrl(v, region) + '" target="_blank" rel="noopener">在 B 站打开 ↗</a>' +
       "</div>";
     var lp0 = card.querySelector(".live-poster");
     lp0.__poster = lp0.innerHTML;
@@ -484,7 +490,12 @@
       if (ps === "search") { window.open(fallbackUrl(v, region), "_blank"); return; }
       playLive(ps);
     }
-    card.querySelector(".live-play").addEventListener("click", clickPlay);
+    card.querySelector(".live-play").addEventListener("click", function (e) { e.stopPropagation(); clickPlay(); });
+    card.querySelector(".live-poster").addEventListener("click", function (e) {
+      if (e.target.closest(".live-play") || e.target.closest("a") || e.target.closest(".psrc")) return;
+      if (!replay && card.querySelector(".live-poster iframe")) return;
+      clickPlay();
+    });
     if (replay) {
       // 弹窗模式下，点海报图片（非按钮/链接）也打开大窗口
       card.querySelector(".live-poster").addEventListener("click", function (e) {
@@ -733,7 +744,7 @@
         (c.years ? '<time>' + c.years + "</time>" : "") +
         '<p>' + c.desc + "</p>" +
         (c.yt || c.bv
-          ? '<span class="psrcs"><a class="go" href="' + fallbackUrl(c, region) + '" target="_blank" rel="noopener">外部打开 ↗</a></span>'
+          ? '<span class="psrcs"><a class="go" href="' + fallbackUrl(c, region) + '" target="_blank" rel="noopener">在 B 站打开 ↗</a></span>'
           : '<span class="psrcs"><a class="go" href="https://www.bilibili.com/search?keyword=' + kw + '" target="_blank" rel="noopener">在 B 站搜现场影像 ↗</a></span>') +
       "</div>";
     if (c.yt || c.bv) {
@@ -749,7 +760,15 @@
         activeFrame = host;
       }
       var pb = card.querySelector(".tour-play");
-      if (pb) pb.addEventListener("click", function () { var ps = pickSource(c); if (ps === "search") { window.open(fallbackUrl(c, region), "_blank"); return; } playTour(ps); });
+      if (pb) pb.addEventListener("click", function (e) { e.stopPropagation(); var ps = pickSource(c); if (ps === "search") { window.open(fallbackUrl(c, region), "_blank"); return; } playTour(ps); });
+      var tmedia = card.querySelector(".tour-media");
+      if (tmedia) tmedia.addEventListener("click", function (e) {
+        if (e.target.closest(".tour-play") || e.target.closest("a") || e.target.closest(".psrc")) return;
+        if (tmedia.classList.contains("playing")) return;
+        var ps = pickSource(c);
+        if (ps === "search") { window.open(fallbackUrl(c, region), "_blank"); return; }
+        playTour(ps);
+      });
       card.querySelectorAll(".psrc").forEach(function (b) {
         b.addEventListener("click", function () { playTour(b.getAttribute("data-p")); });
       });
@@ -825,8 +844,8 @@
     var mi2 = 0, mOn = false, mPlat = "", veilTimer = null;
     function mSrcFor(m, plat) {
       plat = plat || (region === "cn" ? (m.bv ? "bv" : "yt") : (m.yt ? "yt" : "bv"));
-      if (plat === "bv" && m.bv) return "https://player.bilibili.com/player.html?bvid=" + m.bv + "&autoplay=0&danmaku=0&high_quality=1";
-      if (plat === "yt" && m.yt) return "https://www.youtube.com/embed/" + m.yt + "?rel=0&autoplay=0";
+      if (plat === "bv" && m.bv) return "https://player.bilibili.com/player.html?bvid=" + m.bv + "&autoplay=1&danmaku=0&high_quality=1";
+      if (plat === "yt" && m.yt) return "https://www.youtube.com/embed/" + m.yt + "?rel=0&autoplay=1";
       return "";
     }
     function mOpenUrl(m) {
@@ -1086,86 +1105,25 @@
     function num(el, v) { if (el) el.textContent = v == null ? "—" : String(v); }
     var today = new Date();
     var ds = today.getFullYear() + "-" + String(today.getMonth() + 1).padStart(2, "0") + "-" + String(today.getDate()).padStart(2, "0");
-    jget("https://api.countapi.xyz/hit/beyond-tribute/visits", 6000).then(function (d) { num(totalEl, d.value); }, function () {
-      try { localStorage.setItem("by-local-total", String((parseInt(localStorage.getItem("by-local-total") || "0", 10) || 0) + 1)); } catch (e) {}
-      num(totalEl, localStorage.getItem("by-local-total") || 1);
-    });
-    jget("https://api.countapi.xyz/hit/beyond-tribute/day-" + ds, 6000).then(function (d) { num(todayEl, d.value); }, function () {
-      try {
-        if (localStorage.getItem("by-local-day") !== ds) {
-          localStorage.setItem("by-local-total-day", String((parseInt(localStorage.getItem("by-local-total-day") || "0", 10) || 0) + 1));
-          localStorage.setItem("by-local-day", ds);
-        }
-      } catch (e) {}
-      num(todayEl, localStorage.getItem("by-local-total-day") || 0);
-    });
+    try {
+      var lt = (parseInt(localStorage.getItem("by-local-total") || "0", 10) || 0) + 1;
+      localStorage.setItem("by-local-total", String(lt));
+      num(totalEl, lt);
+    } catch (e) { num(totalEl, "—"); }
+    try {
+      var ds2 = today.getFullYear() + "-" + String(today.getMonth() + 1).padStart(2, "0") + "-" + String(today.getDate()).padStart(2, "0");
+      if (localStorage.getItem("by-local-day") !== ds2) {
+        localStorage.setItem("by-local-total-day", String((parseInt(localStorage.getItem("by-local-total-day") || "0", 10) || 0) + 1));
+        localStorage.setItem("by-local-day", ds2);
+      }
+      num(todayEl, localStorage.getItem("by-local-total-day") || 1);
+    } catch (e) { num(todayEl, "—"); }
   })();
 
   /* ============================================================
      底部世界地图（本地 assets 同源渲染，无需外链图库）
      ============================================================ */
-  (function worldMapRender() {
-    var mapEl = document.getElementById("world-map");
-    if (!mapEl) return;
-    var shown = false;
-    function showMsg(t) {
-      if (shown) return;
-      shown = true;
-      mapEl.innerHTML = t ? '<p class="map-loading">' + t + "</p>" : "";
-    }
-    function loadjs(u) {
-      return new Promise(function (res, rej) {
-        var s = document.createElement("script");
-        s.src = u;
-        s.onload = res; s.onerror = rej;
-        document.head.appendChild(s);
-      });
-    }
-    var tmo = setTimeout(function () { showMsg("地图加载超时：请检查网络后刷新重试。"); }, 12000);
-    function finishFail() {
-      clearTimeout(tmo);
-      if (!mapEl.querySelector("svg")) showMsg("地图数据加载失败：本站静态地图数据未能读取，刷新重试。");
-    }
-    var hot = {};
-    try {
-      var store = JSON.parse(localStorage.getItem("by-map") || "{}");
-      hot = (store && store.countries) || {};
-    } catch (e) {}
-    var hotNames = Object.keys(hot).filter(function (k) { return k !== "__local__"; });
-    function officialName(n) {
-      var m = { "united states": "united states of america", "uk": "united kingdom", "u.k.": "united kingdom",
-        "south korea": "republic of korea", "taiwan": "taiwan", "vietnam": "vietnam", "hong kong": "china",
-        "macau": "china", "czech republic": "czechia", "czechia": "czechia", "ivory coast": "côte d'ivoire",
-        "cote d'ivoire": "côte d'ivoire", "russia": "russia", "viet nam": "vietnam" };
-      var k = String(n || "").toLowerCase().trim();
-      return (m[k] || k).replace(/\s+/g, " ");
-    }
-    Promise.all([loadjs("assets/topojson-client.min.js"), loadjs("assets/d3-geo.min.js")])
-      .then(function () {
-        if (typeof topojson === "undefined" || typeof d3 === "undefined") throw new Error("lib");
-        return fetch("assets/countries-110m.json").then(function (r) {
-          if (!r.ok) throw new Error("http" + r.status);
-          return r.json();
-        });
-      })
-      .then(function (topo) {
-        clearTimeout(tmo);
-        var geo = topojson.feature(topo, topo.objects.countries);
-        var proj = d3.geoNaturalEarth1().fitExtent([[6, 6], [948, 488]], geo);
-        var path = d3.geoPath(proj);
-        var html = '<svg viewBox="0 0 960 500" role="img" aria-label="世界各地的致敬示意地图">';
-        geo.features.forEach(function (f) {
-          var nm = officialName(f.properties && f.properties.name);
-          var h = hotNames.some(function (k) { return officialName(k) === nm; });
-          html += '<path class="' + (h ? "land hot" : "land") + '" data-name="' + nm + '" d="' + path(f) + '"><title>' +
-            (f.properties && f.properties.name ? f.properties.name : nm) + "</title></path>";
-        });
-        html += "</svg>";
-        mapEl.innerHTML = html;
-        shown = true;
-      })
-      .catch(finishFail);
-  })();
+
 
   /* ============================================================
      ambient audio（原创 WebAudio）
@@ -1325,7 +1283,18 @@
     var TYPE_CN = { person: "人物", band: "乐队", album: "专辑", song: "歌曲", film: "电影", tv: "电视", role: "角色", platform: "平台", award: "奖项" };
 
     var PHOTO = { koma: "assets/photos/wongkakui.jpg", paul: "assets/photos/wongkoonchung.jpg", steve: "assets/photos/wongkakeung.jpg", wing: "assets/photos/yipsaiwing.jpg", lau_chiyuen: "assets/photos/lau_chiyuen.jpg", tang_william: "assets/photos/tang_waihim.jpg", beyond: "assets/photos/band.jpg" };
-    var nodes = G.nodes.map(function (n) { return { id: n.id, label: n.label, type: n.type, lead: !!n.lead, x: 0, y: 0, vx: 0, vy: 0, photo: PHOTO[n.id] || "", r: n.type === "band" ? 40 : n.type === "person" ? (PHOTO[n.id] ? 26 : 20) : n.type === "film" || n.type === "tv" ? 18 : n.type === "role" ? 11 : n.type === "award" ? 12 : n.type === "platform" ? 13 : 14 }; });
+    function initialAvatar(name) {
+      var ch = (name || "?").replace(/[《》]/g, "").slice(0, 1);
+      var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120">' +
+        '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">' +
+        '<stop offset="0" stop-color="#3a3320"/><stop offset="1" stop-color="#15151c"/></linearGradient></defs>' +
+        '<rect width="120" height="120" fill="url(#g)"/>' +
+        '<circle cx="60" cy="46" r="21" fill="#8b7a45"/>' +
+        '<path d="M18 112c6-24 22-34 42-34s36 10 42 34z" fill="#8b7a45"/>' +
+        '<text x="60" y="76" text-anchor="middle" font-size="34" font-family="PingFang SC, Microsoft YaHei, sans-serif" fill="#f4e7c3">' + ch + '</text></svg>';
+      return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+    }
+    var nodes = G.nodes.map(function (n) { return { id: n.id, label: n.label, type: n.type, lead: !!n.lead, x: 0, y: 0, vx: 0, vy: 0, photo: PHOTO[n.id] || (n.type === "person" ? initialAvatar(n.label) : ""), r: n.type === "band" ? 40 : n.type === "person" ? (PHOTO[n.id] ? 30 : 24) : n.type === "film" || n.type === "tv" ? 18 : n.type === "role" ? 11 : n.type === "award" ? 12 : n.type === "platform" ? 13 : 14 }; });
     var byId = {};
     nodes.forEach(function (n) { byId[n.id] = n; });
     var links = (G.links || []).filter(function (l) { return byId[l.s] && byId[l.t]; }).map(function (l) { return { s: byId[l.s], t: byId[l.t], type: l.type, note: l.note }; });
@@ -1409,6 +1378,7 @@
       t.setAttribute("letter-spacing", ".5");
       t.setAttribute("class", "rg-label");
       t.textContent = n.label;
+      n.labelEl = t;
       if (["role", "award", "platform"].indexOf(n.type) !== -1) t.setAttribute("opacity", "0");
       g.appendChild(halo); g.appendChild(c); g.appendChild(t);
       g.appendChild(titleEl(n.label));
@@ -1532,7 +1502,7 @@
       links.forEach(function (l) {
         dx = l.t.x - l.s.x; dy = l.t.y - l.s.y;
         d = Math.sqrt(dx * dx + dy * dy) || 1;
-        var target = l.s.r + l.t.r + 80;
+        var target = l.s.r + l.t.r + 100;
         f = (d - target) * 0.012;
         l.s.vx += (dx / d) * f; l.s.vy += (dy / d) * f;
         l.t.vx -= (dx / d) * f; l.t.vy -= (dy / d) * f;
@@ -1556,6 +1526,15 @@
       });
       nodes.forEach(function (n, i) {
         nodeEls[i].setAttribute("transform", "translate(" + n.x.toFixed(2) + "," + n.y.toFixed(2) + ")");
+        if (n.labelEl) {
+          var ang = Math.atan2(n.y - H / 2, n.x - W / 2);
+          var lr = n.r + 13;
+          var lx = Math.cos(ang) * lr, ly = Math.sin(ang) * lr + 4;
+          var ca = Math.cos(ang);
+          n.labelEl.setAttribute("x", lx.toFixed(1));
+          n.labelEl.setAttribute("y", ly.toFixed(1));
+          n.labelEl.setAttribute("text-anchor", ca > 0.2 ? "start" : ca < -0.2 ? "end" : "middle");
+        }
       });
       requestAnimationFrame(tick);
     }
@@ -1589,108 +1568,7 @@
   /* ============================================================
      背景音乐 · 经典循环（隐藏播放器，B站源，与视频互斥）
      ============================================================ */
-  (function bgMusic() {
-    var MUSIC = D.MUSIC || [];
-    var btn = document.querySelector(".music-toggle");
-    var now = document.getElementById("music-now");
-    if (!MUSIC.length || !btn) return;
 
-    var actx = null, gain = null, srcNode = null, buffers = {}, idx = 0, playing = false, fallbackAudio = null;
-    function setMsg(t) {
-      if (!now) return;
-      now.textContent = t || "";
-      now.classList.toggle("on", !!t);
-    }
-    function ensureCtx() {
-      if (!actx) {
-        var AC = window.AudioContext || window.webkitAudioContext;
-        if (!AC) return false;
-        actx = new AC();
-        gain = actx.createGain();
-        gain.gain.value = 0;
-        gain.connect(actx.destination);
-      }
-      if (actx.state === "suspended") actx.resume();
-      return true;
-    }
-    function loadBuffer(i) {
-      if (buffers[i]) return Promise.resolve(buffers[i]);
-      return fetch(MUSIC[i].file).then(function (r) {
-        if (!r.ok) throw new Error("http" + r.status);
-        return r.arrayBuffer();
-      }).then(function (buf) {
-        return actx.decodeAudioData(buf);
-      }).then(function (decoded) {
-        buffers[i] = decoded;
-        return decoded;
-      });
-    }
-    function stopSource() {
-      if (srcNode) {
-        try { srcNode.onended = null; srcNode.stop(); } catch (e) {}
-        try { srcNode.disconnect(); } catch (e) {}
-        srcNode = null;
-      }
-    }
-    function fadeTo(target, ms) {
-      if (!gain || !actx) return;
-      var t = actx.currentTime;
-      gain.gain.cancelScheduledValues(t);
-      gain.gain.setValueAtTime(Math.max(0.0001, gain.gain.value), t);
-      gain.gain.linearRampToValueAtTime(target, t + ms / 1000);
-    }
-    function playIndex(i) {
-      idx = ((i % MUSIC.length) + MUSIC.length) % MUSIC.length;
-      var m = MUSIC[idx];
-      setMsg("♪ " + m.title + (m.year ? " · " + m.year : "") + "（背景音乐 · 点喇叭暂停）");
-      if (!ensureCtx()) { fallback(m); return; }
-      loadBuffer(idx).then(function (buffer) {
-        if (!playing) return;
-        stopSource();
-        srcNode = actx.createBufferSource();
-        srcNode.buffer = buffer;
-        srcNode.connect(gain);
-        srcNode.onended = function () { if (playing) playIndex(idx + 1); };
-        srcNode.start(0);
-        fadeTo(0.55, 1200);
-        // 预取下一首，切换更顺
-        var nx = (idx + 1) % MUSIC.length;
-        if (!buffers[nx]) loadBuffer(nx).catch(function () {});
-      }).catch(function () {
-        // 解码失败时回退到 <audio>（仍受自动播放策略约束）
-        fallback(MUSIC[idx]);
-      });
-    }
-    function fallback(m) {
-      stopSource();
-      if (fallbackAudio) { fallbackAudio.pause(); }
-      fallbackAudio = new Audio(m.file);
-      fallbackAudio.volume = 0.6;
-      var p = fallbackAudio.play();
-      if (p && p.catch) p.catch(function () { setMsg("请在浏览器设置里允许本页播放声音，或点开任意视频后再试 🎵"); });
-      fallbackAudio.onended = function () { if (playing) playIndex(idx + 1); };
-    }
-    function stop(quiet) {
-      playing = false;
-      stopSource();
-      if (fallbackAudio) { try { fallbackAudio.pause(); } catch (e) {} fallbackAudio = null; }
-      if (gain) { gain.gain.cancelScheduledValues(actx ? actx.currentTime : 0); gain.gain.value = 0; }
-      btn.classList.remove("playing");
-      btn.setAttribute("aria-label", "播放背景音乐（经典循环）");
-      btn.title = "背景音乐 · 经典循环";
-      if (!quiet) setMsg("");
-    }
-    function play() {
-      stopActiveFrame(); // 互斥：先停掉视频/大屏
-      playing = true;
-      btn.classList.add("playing");
-      btn.setAttribute("aria-label", "暂停背景音乐");
-      btn.title = "背景音乐播放中 · 点击暂停";
-      playIndex(idx);
-    }
-    btn.addEventListener("click", function () { if (playing) stop(); else play(); });
-    window.__byMusicStop = stop;
-  })();
 
 
   /* ---------- 舞台瞬间（现场封面画廊） ---------- */
@@ -1716,6 +1594,133 @@
         '<span class="g-cap"><strong>' + it.title + '</strong><small>' + it.sub + '</small></span>';
       host.appendChild(a);
     });
+  })();
+
+
+  /* ============================================================
+     背景音乐 · 原创合成音轨（WebAudio 生成，无第三方版权）
+     ============================================================ */
+  (function bgmOriginal() {
+    var btn = document.querySelector(".music-toggle");
+    var now = document.getElementById("music-now");
+    if (!btn) return;
+    var actx = null, master = null, delay = null, timer = null, playing = false;
+    var stepCount = 0, nextTime = 0;
+    // Am - F - C - G，每两小节循环
+    var CHORDS = [
+      [220.00, 261.63, 329.63],
+      [174.61, 220.00, 261.63],
+      [261.63, 329.63, 392.00],
+      [196.00, 246.94, 293.66]
+    ];
+    var ROOTS = [110.00, 87.31, 130.81, 98.00];
+    function setMsg(t) {
+      if (!now) return;
+      now.textContent = t || "";
+      now.classList.toggle("on", !!t);
+    }
+    function ensure() {
+      if (actx) return true;
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return false;
+      actx = new AC();
+      master = actx.createGain();
+      master.gain.value = 0.0001;
+      master.connect(actx.destination);
+      delay = actx.createDelay(1.0);
+      delay.delayTime.value = 0.28;
+      var fb = actx.createGain(); fb.gain.value = 0.25;
+      var wet = actx.createGain(); wet.gain.value = 0.35;
+      delay.connect(fb); fb.connect(delay); delay.connect(wet); wet.connect(master);
+      return true;
+    }
+    function pad(freq, t, dur) {
+      [0, 0.6].forEach(function (det) {
+        var o = actx.createOscillator();
+        var g = actx.createGain();
+        var lp = actx.createBiquadFilter();
+        o.type = "triangle";
+        o.frequency.value = freq;
+        o.detune.value = det === 0 ? -6 : 6;
+        lp.type = "lowpass"; lp.frequency.value = 900;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.linearRampToValueAtTime(0.055, t + 0.5);
+        g.gain.linearRampToValueAtTime(0.0001, t + dur);
+        o.connect(lp); lp.connect(g); g.connect(master);
+        o.start(t); o.stop(t + dur + 0.05);
+      });
+    }
+    function pluck(freq, t, dur, vol) {
+      var o = actx.createOscillator();
+      var g = actx.createGain();
+      var lp = actx.createBiquadFilter();
+      o.type = "sawtooth";
+      o.frequency.value = freq;
+      lp.type = "lowpass"; lp.frequency.value = 1800; lp.Q.value = 2;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(vol || 0.05, t + 0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(lp); lp.connect(g); g.connect(master);
+      g.connect(delay);
+      o.start(t); o.stop(t + dur + 0.05);
+    }
+    function bass(freq, t, dur) {
+      var o = actx.createOscillator();
+      var g = actx.createGain();
+      o.type = "sine"; o.frequency.value = freq;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.linearRampToValueAtTime(0.16, t + 0.03);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(g); g.connect(master);
+      o.start(t); o.stop(t + dur + 0.05);
+    }
+    function schedule() {
+      var eighth = 60 / 88 / 2;
+      while (nextTime < actx.currentTime + 0.3) {
+        var step = stepCount % 16;
+        var ci = Math.floor(stepCount / 8) % CHORDS.length;
+        var ch = CHORDS[ci];
+        if (step % 8 === 0) pad(ch[0], nextTime, eighth * 8);
+        if (step % 4 === 0) bass(ROOTS[ci], nextTime, eighth * 4);
+        if (step % 2 === 0) pluck(ch[(step / 2) % ch.length] * 2, nextTime, 0.38, 0.045);
+        if (step === 6 || step === 14) pluck(ch[0] * 4, nextTime, 0.5, 0.03);
+        nextTime += eighth;
+        stepCount++;
+      }
+      if (playing) timer = setTimeout(schedule, 120);
+    }
+    function start() {
+      if (!ensure()) { setMsg("当前浏览器不支持音频播放 🎵"); return; }
+      if (actx.state === "suspended") actx.resume();
+      playing = true;
+      btn.classList.add("playing");
+      setMsg("♪ 原创背景音乐 · 点击喇叭暂停");
+      master.gain.cancelScheduledValues(actx.currentTime);
+      master.gain.setValueAtTime(0.0001, actx.currentTime);
+      master.gain.linearRampToValueAtTime(0.5, actx.currentTime + 1.5);
+      nextTime = actx.currentTime + 0.08;
+      stepCount = 0;
+      schedule();
+    }
+    function stop(quiet) {
+      playing = false;
+      if (timer) { clearTimeout(timer); timer = null; }
+      btn.classList.remove("playing");
+      if (actx) {
+        try {
+          master.gain.cancelScheduledValues(actx.currentTime);
+          master.gain.setValueAtTime(master.gain.value, actx.currentTime);
+          master.gain.linearRampToValueAtTime(0.0001, actx.currentTime + 0.6);
+        } catch (e) {}
+      }
+      if (!quiet) setMsg("");
+    }
+    btn.addEventListener("click", function () {
+      if (playing) { stop(); return; }
+      stopActiveFrame(); // 与视频互斥
+      start();
+    });
+    window.__byMusicStop = stop;
   })();
 
 
