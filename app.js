@@ -437,6 +437,7 @@
     if (replayStopFn) { try { replayStopFn(); } catch (e) {} }
     if (momentStopFn) { try { momentStopFn(); } catch (e) {} }
     stopMusic(true); // 互斥：视频/大屏开播时背景音乐一并停掉
+    if (window.__byMusicStop) { try { window.__byMusicStop(true); } catch (e) {} }
     if (activeFrame && activeFrame.__poster !== undefined) {
       activeFrame.innerHTML = activeFrame.__poster;
       activeFrame.classList.remove("playing");
@@ -1604,121 +1605,51 @@
     var btn = document.querySelector(".music-toggle");
     var now = document.getElementById("music-now");
     if (!btn) return;
-    var actx = null, master = null, delay = null, timer = null, playing = false;
-    var stepCount = 0, nextTime = 0;
-    // Am - F - C - G，每两小节循环
-    var CHORDS = [
-      [220.00, 261.63, 329.63],
-      [174.61, 220.00, 261.63],
-      [261.63, 329.63, 392.00],
-      [196.00, 246.94, 293.66]
-    ];
-    var ROOTS = [110.00, 87.31, 130.81, 98.00];
+    var audio = new Audio("assets/audio/original-loop.mp3");
+    audio.loop = true;
+    audio.preload = "auto";
+    audio.volume = 0;
+    var playing = false, fadeTimer = null;
     function setMsg(t) {
       if (!now) return;
       now.textContent = t || "";
       now.classList.toggle("on", !!t);
     }
-    function ensure() {
-      if (actx) return true;
-      var AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC) return false;
-      actx = new AC();
-      master = actx.createGain();
-      master.gain.value = 0.0001;
-      master.connect(actx.destination);
-      delay = actx.createDelay(1.0);
-      delay.delayTime.value = 0.28;
-      var fb = actx.createGain(); fb.gain.value = 0.25;
-      var wet = actx.createGain(); wet.gain.value = 0.35;
-      delay.connect(fb); fb.connect(delay); delay.connect(wet); wet.connect(master);
-      return true;
+    function fadeTo(target, ms) {
+      if (fadeTimer) { clearInterval(fadeTimer); fadeTimer = null; }
+      var from = audio.volume, steps = Math.max(1, Math.round(ms / 40)), i = 0;
+      fadeTimer = setInterval(function () {
+        i++;
+        audio.volume = Math.min(1, Math.max(0, from + (target - from) * (i / steps)));
+        if (i >= steps) { clearInterval(fadeTimer); fadeTimer = null; }
+      }, 40);
     }
-    function pad(freq, t, dur) {
-      [0, 0.6].forEach(function (det) {
-        var o = actx.createOscillator();
-        var g = actx.createGain();
-        var lp = actx.createBiquadFilter();
-        o.type = "triangle";
-        o.frequency.value = freq;
-        o.detune.value = det === 0 ? -6 : 6;
-        lp.type = "lowpass"; lp.frequency.value = 900;
-        g.gain.setValueAtTime(0.0001, t);
-        g.gain.linearRampToValueAtTime(0.055, t + 0.5);
-        g.gain.linearRampToValueAtTime(0.0001, t + dur);
-        o.connect(lp); lp.connect(g); g.connect(master);
-        o.start(t); o.stop(t + dur + 0.05);
-      });
-    }
-    function pluck(freq, t, dur, vol) {
-      var o = actx.createOscillator();
-      var g = actx.createGain();
-      var lp = actx.createBiquadFilter();
-      o.type = "sawtooth";
-      o.frequency.value = freq;
-      lp.type = "lowpass"; lp.frequency.value = 1800; lp.Q.value = 2;
-      g.gain.setValueAtTime(0.0001, t);
-      g.gain.exponentialRampToValueAtTime(vol || 0.05, t + 0.012);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-      o.connect(lp); lp.connect(g); g.connect(master);
-      g.connect(delay);
-      o.start(t); o.stop(t + dur + 0.05);
-    }
-    function bass(freq, t, dur) {
-      var o = actx.createOscillator();
-      var g = actx.createGain();
-      o.type = "sine"; o.frequency.value = freq;
-      g.gain.setValueAtTime(0.0001, t);
-      g.gain.linearRampToValueAtTime(0.16, t + 0.03);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-      o.connect(g); g.connect(master);
-      o.start(t); o.stop(t + dur + 0.05);
-    }
-    function schedule() {
-      var eighth = 60 / 88 / 2;
-      while (nextTime < actx.currentTime + 0.3) {
-        var step = stepCount % 16;
-        var ci = Math.floor(stepCount / 8) % CHORDS.length;
-        var ch = CHORDS[ci];
-        if (step % 8 === 0) pad(ch[0], nextTime, eighth * 8);
-        if (step % 4 === 0) bass(ROOTS[ci], nextTime, eighth * 4);
-        if (step % 2 === 0) pluck(ch[(step / 2) % ch.length] * 2, nextTime, 0.38, 0.045);
-        if (step === 6 || step === 14) pluck(ch[0] * 4, nextTime, 0.5, 0.03);
-        nextTime += eighth;
-        stepCount++;
-      }
-      if (playing) timer = setTimeout(schedule, 120);
-    }
-    function start() {
-      if (!ensure()) { setMsg("当前浏览器不支持音频播放 🎵"); return; }
-      if (actx.state === "suspended") actx.resume();
+    function play() {
+      stopActiveFrame(); // 互斥：先停视频
       playing = true;
       btn.classList.add("playing");
       setMsg("♪ 原创背景音乐 · 点击喇叭暂停");
-      master.gain.cancelScheduledValues(actx.currentTime);
-      master.gain.setValueAtTime(0.0001, actx.currentTime);
-      master.gain.linearRampToValueAtTime(0.5, actx.currentTime + 1.5);
-      nextTime = actx.currentTime + 0.08;
-      stepCount = 0;
-      schedule();
+      var p = audio.play();
+      if (p && p.then) {
+        p.then(function () { fadeTo(0.6, 1500); }).catch(function () {
+          playing = false;
+          btn.classList.remove("playing");
+          setMsg("浏览器拦截了自动播放，请再点一次喇叭 🎵");
+        });
+      } else {
+        audio.volume = 0.6;
+      }
     }
     function stop(quiet) {
       playing = false;
-      if (timer) { clearTimeout(timer); timer = null; }
+      if (fadeTimer) { clearInterval(fadeTimer); fadeTimer = null; }
+      try { audio.pause(); } catch (e) {}
       btn.classList.remove("playing");
-      if (actx) {
-        try {
-          master.gain.cancelScheduledValues(actx.currentTime);
-          master.gain.setValueAtTime(master.gain.value, actx.currentTime);
-          master.gain.linearRampToValueAtTime(0.0001, actx.currentTime + 0.6);
-        } catch (e) {}
-      }
       if (!quiet) setMsg("");
     }
     btn.addEventListener("click", function () {
-      if (playing) { stop(); return; }
-      stopActiveFrame(); // 与视频互斥
-      start();
+      if (playing || !audio.paused) { stop(); return; }
+      play();
     });
     window.__byMusicStop = stop;
   })();
