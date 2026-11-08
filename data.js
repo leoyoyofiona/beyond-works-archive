@@ -197,7 +197,9 @@ window.BY_DATA = (function () {
     { title: "Live & Basic 演唱会", years: "1996 · 红馆", tag: "三子时期", desc: "三子时期红馆「Live & Basic」，163 分钟完整版。", img: "assets/covers/erlouhouzuo_1994.jpg", bv: "BV15m4y187PC", kw: "BEYOND 1996 Live Basic 红馆" },
     { title: "超越 BEYOND 二十周年", years: "2003 · 香港", tag: "纪念", desc: "2003 年成立二十周年演唱会，158 分钟。", img: "assets/covers/sound_1995.jpg", bv: "BV1oG411j7L2", kw: "BEYOND 2003 二十周年 演唱会" },
     { title: "The Story Live 告别演唱会", years: "2005 · 香港", tag: "告别", desc: "2005 年告别演唱会，299 分钟 32P 字幕版。", img: "assets/covers/goodtime_1999.jpg", bv: "BV1rs411b7e8", kw: "BEYOND 2005 The Story Live 告别" },
-    { title: "纪念黄家驹 25 周年演唱会", years: "2018 · 香港", tag: "群星致敬", desc: "群星翻唱纪念场（剪辑版），作「更多相关」。", img: "assets/covers/bujianbusan_1999.jpg", bv: "BV19W411w74Z", kw: "纪念黄家驹 25 周年 演唱会" }
+    { title: "纪念黄家驹 25 周年演唱会", years: "2018 · 香港", tag: "群星致敬", desc: "群星翻唱纪念场（剪辑版），作「更多相关」。", img: "assets/covers/bujianbusan_1999.jpg", bv: "BV19W411w74Z", kw: "纪念黄家驹 25 周年 演唱会" },
+    { title: "万人劲 Rock 音乐会", years: "1990-11-01 · 香港（场地待核）", tag: "现场", desc: "1990 年 11 月 1 日演出，BEYOND 演唱《大地》《光辉岁月》等作品。", img: "assets/thumbs/BV1e4mqBjE3c.jpg", bv: "BV1e4mqBjE3c", kw: "BEYOND 1990 万人劲Rock 音乐会" },
+    { title: "创作人音乐会 · 致敬家驹", years: "1993-11-30 · 香港", tag: "纪念", desc: "家驹离世后，三子与王菲、太极乐队等群星同台，演绎他的作品致以敬意。", img: "assets/thumbs/BV1AW4y1D7yX.jpg", bv: "BV1AW4y1D7yX", kw: "Beyond 1993 创作人音乐会 致敬" },
   ];
 
   /* ---------------- 图集（真实照片/封面，新标签打开） ---------------- */
@@ -511,6 +513,7 @@ window.BY_DATA = (function () {
     {title:  "十大劲歌金曲颁奖礼", year:  "1989 / 1990", type:  "颁奖", director:  "TVB", role:  "获奖演出（1989《真的爱你》、1990《光辉岁月》）", img:  "assets/covers/beyondiv_1989.jpg", note:  "1989 全场 127:41；1990 全场 126:00。", bv:  "BV1tjs5zNEXr", bvnote:  "1989 完整 127:41", kw:  "十大劲歌金曲 1989 BEYOND"},
     {title:  "十大中文金曲颁奖礼", year:  "1989 / 1990", type:  "颁奖", director:  "香港电台 RTHK", role:  "获奖演出（1989《真的爱你》、1990《俾面派对》）", img:  "assets/covers/mingyunpaidui_1990.jpg", note:  "1989 片段 4:42；1990 片段 3:28。", bv:  "BV1KJ4m1Y7A5", bvnote:  "1989《真的爱你》片段", kw:  "十大中文金曲 1989 真的爱你"},
     {title:  "林珊珊 电台访问", year:  "1991 年末", type:  "访谈", director:  "香港电台 / 商台（待核）", role:  "四子电台深度访谈，约 89–90 分钟", img:  "assets/photos/wongkakui.jpg", note:  "分 4P，可按人切片。", bv:  "BV1vw411272r", bvnote:  "89:21 完整（4P）", kw:  "BEYOND 林珊珊 电台访问"},
+    {title:  "骄阳岁月", year:  "1994", type:  "纪录片", director:  "歌迷/媒体素材整理", role:  "黄家驹纪念影像：葬礼纪实与 1987–1993 年演出片段", img:  "assets/thumbs/BV1GUGwzrEtK.jpg", note:  "非官方出品；含葬礼纪实，情绪较重，请谨慎观看。", bv:  "BV1GUGwzrEtK", bvnote:  "46:31 完整版", kw:  "骄阳岁月 黄家驹 纪录片"},
     {title:  "叱咤新大陆（商台访问）", year:  "1993-05-21", type:  "访谈", director:  "商业电台", role:  "电台访问 + 不插电现场", img:  "assets/covers/jixugeming_1992.jpg", note:  "家驹离世前约一个月。", bv:  "BV19E411W7Ms", bvnote:  "15:11 片段", kw:  "叱咤新大陆 BEYOND 1993"}
   ];
 

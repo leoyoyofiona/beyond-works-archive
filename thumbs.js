@@ -76,5 +76,10 @@ window.BY_THUMBS = {
 "BV1vw411272r": "assets/thumbs/BV1vw411272r.jpg",
 "BV1wH4y1v7dT": "assets/thumbs/BV1wH4y1v7dT.jpg",
 "BV1xm4y1W7J3": "assets/thumbs/BV1xm4y1W7J3.jpg",
-"BV1yJ411Q79M": "assets/thumbs/BV1yJ411Q79M.jpg"
+"BV1yJ411Q79M": "assets/thumbs/BV1yJ411Q79M.jpg",
+"BV1e4mqBjE3c": "assets/thumbs/BV1e4mqBjE3c.jpg",
+"BV1AW4y1D7yX": "assets/thumbs/BV1AW4y1D7yX.jpg",
+"BV1GUGwzrEtK": "assets/thumbs/BV1GUGwzrEtK.jpg",
+"BV1CW411i74k": "assets/thumbs/BV1CW411i74k.jpg",
+"BV1VrWBzGE4g": "assets/thumbs/BV1VrWBzGE4g.jpg"
 };
