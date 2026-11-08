@@ -198,8 +198,8 @@ window.BY_DATA = (function () {
     { title: "超越 BEYOND 二十周年", years: "2003 · 香港", tag: "纪念", desc: "2003 年成立二十周年演唱会，158 分钟。", img: "assets/covers/sound_1995.jpg", bv: "BV1oG411j7L2", kw: "BEYOND 2003 二十周年 演唱会" },
     { title: "The Story Live 告别演唱会", years: "2005 · 香港", tag: "告别", desc: "2005 年告别演唱会，299 分钟 32P 字幕版。", img: "assets/covers/goodtime_1999.jpg", bv: "BV1rs411b7e8", kw: "BEYOND 2005 The Story Live 告别" },
     { title: "纪念黄家驹 25 周年演唱会", years: "2018 · 香港", tag: "群星致敬", desc: "群星翻唱纪念场（剪辑版），作「更多相关」。", img: "assets/covers/bujianbusan_1999.jpg", bv: "BV19W411w74Z", kw: "纪念黄家驹 25 周年 演唱会" },
-    { title: "万人劲 Rock 音乐会", years: "1990-11-01 · 香港（场地待核）", tag: "现场", desc: "1990 年 11 月 1 日演出，BEYOND 演唱《大地》《光辉岁月》等作品。", img: "assets/thumbs/BV1e4mqBjE3c.jpg", bv: "BV1e4mqBjE3c", kw: "BEYOND 1990 万人劲Rock 音乐会" },
-    { title: "创作人音乐会 · 致敬家驹", years: "1993-11-30 · 香港", tag: "纪念", desc: "家驹离世后，三子与王菲、太极乐队等群星同台，演绎他的作品致以敬意。", img: "assets/thumbs/BV1AW4y1D7yX.jpg", bv: "BV1AW4y1D7yX", kw: "Beyond 1993 创作人音乐会 致敬" },
+    { title: "万人劲 Rock 音乐会", years: "1990 · 澳门（日期两说）", tag: "现场", desc: "1990 年在澳门举行；影像标注 11-01，亦有资料记为 12 月，日期待核。BEYOND 演唱《大地》《光辉岁月》等作品。", img: "assets/thumbs/BV1e4mqBjE3c.jpg", bv: "BV1e4mqBjE3c", kw: "BEYOND 1990 万人劲Rock 音乐会" },
+    { title: "创作人音乐会 · 致敬家驹", years: "1993-11-30 · 香港", tag: "纪念", desc: "家驹离世后，三子与群星同台：群星翻唱《昔日舞曲》《大地》《喜欢你》《永远等待》《可否抱紧我》《情人》等，BEYOND 演唱《狂人山庄》《海阔天空》。", img: "assets/thumbs/BV1AW4y1D7yX.jpg", bv: "BV1AW4y1D7yX", kw: "Beyond 1993 创作人音乐会 致敬" },
   ];
 
   /* ---------------- 图集（真实照片/封面，新标签打开） ---------------- */
