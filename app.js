@@ -298,7 +298,7 @@
             '<div class="hint"><span>点击翻面</span><span>↻</span></div>' +
           '</div>' +
           '<div class="flip-face flip-back">' +
-            '<span class="byear">' + a.year + ' · ' + a.tag + '</span>' +
+            '<span class="byear">' + a.year + ' · ' + a.tag + (a.era ? ' · ' + a.era : '') + '</span>' +
             '<h3>' + a.title + '</h3>' +
             '<p class="desc">' + a.desc + '</p>' +
             '<ul>' + a.facts.map(function (f) { return "<li>" + f + "</li>"; }).join("") + '</ul>' +
